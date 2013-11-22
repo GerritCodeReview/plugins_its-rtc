@@ -149,7 +149,7 @@ bogus settings to prevent Gerrit plugin to start correctly.
 	luca's password                : ******
 	              confirm password : ******
 	Verify SSL Certificates        [TRUE/?]: false
-	Test connectivity to https://rtc.gerritforge.com:9443/ccm [N/?]: y
+	Test connectivity to https://rtc.gerritforge.com:9443/ccm [y/N]: y
 	Checking IBM Rational Team Concert connectivity ... [OK]
 
 	*** Rational Team Concert issue-tracking association
