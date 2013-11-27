@@ -16,6 +16,28 @@ the RTC issue and Gerrit Review can be linked together using an external actions
 configuration that allows to configure the RTC issue syntax and formatting all the references
 rendered in Gerrit as hyperlinks to the corresponding issue target URL in RTC.
 
+It can be configured per project whether the RTC integration is
+enabled or not. To enable the RTC integration for a project the
+project must have the following entry in its `project.config` file in
+the `refs/meta/config` branch:
+
+```
+  [plugin "its-rtc"]
+    enabled = true
+```
+
+If `plugin.its-rtc.enabled` is not specified in the `project.config` file
+the value is inherited from the parent project. If it is also not set
+on any parent project the RTC integration is disabled for this
+project.
+
+By setting `plugin.its-rtc.enabled` to true in the `project.config` of the
+`All-Projects` project the RTC integration can be enabled by default
+for all projects. During the initialization of the plugin you are asked
+if the RTC integration should be enabled by default for all projects
+and if yes this setting in the `project.config` of the `All-Projects`
+project is done automatically.
+
 Comment links
 ----------------
 
@@ -139,6 +161,11 @@ through the configuration of RTC integration and connectivity check, avoiding
 bogus settings to prevent Gerrit plugin to start correctly.
 
 **Gerrit init example:**
+
+    *** IBM Rational Team Concert Integration
+    ***
+
+    By default enabled for all projects [Y/n]?
 
     *** IBM Rational Team Concert connectivity
 	*** 

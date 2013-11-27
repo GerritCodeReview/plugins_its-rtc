@@ -13,46 +13,45 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.hooks.rtc;
 
-import java.io.IOException;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.google.gerrit.extensions.annotations.PluginName;
-import com.google.gerrit.pgm.init.InitStep;
+import com.google.gerrit.pgm.init.AllProjectsConfig;
 import com.google.gerrit.pgm.init.Section;
-import com.google.gerrit.pgm.init.Section.Factory;
 import com.google.gerrit.pgm.util.ConsoleUI;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+
 import com.googlesource.gerrit.plugins.hooks.its.InitIts;
 import com.googlesource.gerrit.plugins.hooks.rtc.network.RTCClient;
 import com.googlesource.gerrit.plugins.hooks.validation.ItsAssociationPolicy;
 
+import org.eclipse.jgit.errors.ConfigInvalidException;
+
+import java.io.IOException;
+
 /** Initialize the GitRepositoryManager configuration section. */
 @Singleton
-class InitRTC extends InitIts implements InitStep {
-  private static final Logger log = LoggerFactory.getLogger(InitRTC.class);
+class InitRTC extends InitIts {
   private static final String COMMENT_LINK_SECTION = "commentLink";
   private final String pluginName;
-  private final ConsoleUI ui;
   private Section rtc;
   private Section rtcComment;
-  private Factory sections;
+  private Section.Factory sections;
   private String rtcUrl;
   private String rtcUsername;
   private String rtcPassword;
 
-
   @Inject
-  InitRTC(final @PluginName String pluginName, final ConsoleUI ui,
-      final Section.Factory sections) {
+  InitRTC(@PluginName String pluginName, ConsoleUI ui, Section.Factory sections,
+      AllProjectsConfig allProjectsConfig) {
+    super(pluginName, "IBM Rational Team Concert", ui,
+        allProjectsConfig);
     this.pluginName = pluginName;
-    this.ui = ui;
     this.sections = sections;
   }
 
-  public void run() {
+  public void postRun() throws IOException, ConfigInvalidException {
+    super.postRun();
+
     this.rtc = sections.get(pluginName, null);
     this.rtcComment =
         sections.get(COMMENT_LINK_SECTION, pluginName);
@@ -67,7 +66,7 @@ class InitRTC extends InitIts implements InitStep {
         sslVerify = enterSSLVerify(rtc);
       }
     } while (rtcUrl != null
-        && (isConnectivityRequested(ui, rtcUrl) && !isRTCConnectSuccessful(rtcUrl, sslVerify)));
+        && (isConnectivityRequested(rtcUrl) && !isRTCConnectSuccessful(rtcUrl, sslVerify)));
 
     if (rtcUrl == null) {
       return;
