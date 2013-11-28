@@ -38,6 +38,10 @@ if the RTC integration should be enabled by default for all projects
 and if yes this setting in the `project.config` of the `All-Projects`
 project is done automatically.
 
+If child projects must not be allowed to disable the RTC integration
+a project can enforce the RTC integration for all child projects by
+setting `plugin.its-rtc.enabled` to `enforced`.
+
 Comment links
 ----------------
 
@@ -165,7 +169,7 @@ bogus settings to prevent Gerrit plugin to start correctly.
     *** IBM Rational Team Concert Integration
     ***
 
-    By default enabled for all projects [Y/n]?
+    Issue tracker integration for all projects? [DISABLED/?]: enabled
 
     *** IBM Rational Team Concert connectivity
 	*** 
