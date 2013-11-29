@@ -20,6 +20,7 @@ import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
@@ -31,8 +32,6 @@ import com.googlesource.gerrit.plugins.hooks.rtc.workitems.RtcWorkItem;
 
 public class RTCItsFacade implements ItsFacade {
 
-  public static final String ITS_NAME_RTC = "rtc";
-
   public static final String GERRIT_CONFIG_RTC_USERNAME = "username";
   public static final String GERRIT_CONFIG_RTC_PASSWORD = "password";
   public static final String GERRIT_CONFIG_CCM_URL = "url";
@@ -40,6 +39,7 @@ public class RTCItsFacade implements ItsFacade {
 
   private Logger log = LoggerFactory.getLogger(RTCItsFacade.class);
 
+  private final String pluginName;
   Config gerritConfig;
 
   private RTCClient client;
@@ -47,7 +47,9 @@ public class RTCItsFacade implements ItsFacade {
   private Injector injector;
 
   @Inject
-  public RTCItsFacade(@GerritServerConfig Config gerritConfig, Injector injector) {
+  public RTCItsFacade(@PluginName String pluginName,
+      @GerritServerConfig Config gerritConfig, Injector injector) {
+    this.pluginName = pluginName;
     try {
       this.injector = injector;
       this.gerritConfig = gerritConfig;
@@ -115,21 +117,21 @@ public class RTCItsFacade implements ItsFacade {
   }
 
   private String getRtcPassword() {
-    return gerritConfig.getString(ITS_NAME_RTC, null,
+    return gerritConfig.getString(pluginName, null,
         GERRIT_CONFIG_RTC_PASSWORD);
   }
 
   private String getRtcUser() {
-    return gerritConfig.getString(ITS_NAME_RTC, null,
+    return gerritConfig.getString(pluginName, null,
         GERRIT_CONFIG_RTC_USERNAME);
   }
 
   private String getRtcUrl() {
-    return gerritConfig.getString(ITS_NAME_RTC, null, GERRIT_CONFIG_CCM_URL);
+    return gerritConfig.getString(pluginName, null, GERRIT_CONFIG_CCM_URL);
   }
 
   private boolean getSslVerify() {
-    return gerritConfig.getBoolean(ITS_NAME_RTC, null,
+    return gerritConfig.getBoolean(pluginName, null,
         GERRIT_CONFIG_SSL_VERIFY, true);
   }
 

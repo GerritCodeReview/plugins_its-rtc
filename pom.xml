@@ -30,6 +30,7 @@ limitations under the License.
     <Gerrit-ApiType>plugin</Gerrit-ApiType>
     <Gerrit-ApiVersion>${project.version}</Gerrit-ApiVersion>
     <Gerrit-ReloadMode>reload</Gerrit-ReloadMode>
+    <Gerrit-PluginName>its-rtc</Gerrit-PluginName>
     <Gerrit-InitStep>com.googlesource.gerrit.plugins.hooks.rtc.InitRTC</Gerrit-InitStep>
     <Gerrit-Module>com.googlesource.gerrit.plugins.hooks.rtc.RTCModule</Gerrit-Module>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -311,6 +312,7 @@ limitations under the License.
                 <Gerrit-ApiType>${Gerrit-ApiType}</Gerrit-ApiType>
                 <Gerrit-ApiVersion>${Gerrit-ApiVersion}</Gerrit-ApiVersion>
                 <Gerrit-ReloadMode>${Gerrit-ReloadMode}</Gerrit-ReloadMode>
+                <Gerrit-PluginName>${Gerrit-PluginName}</Gerrit-PluginName>
                 <Gerrit-InitStep>${Gerrit-InitStep}</Gerrit-InitStep>
                 <Gerrit-Module>${Gerrit-Module}</Gerrit-Module>
               </manifestEntries>

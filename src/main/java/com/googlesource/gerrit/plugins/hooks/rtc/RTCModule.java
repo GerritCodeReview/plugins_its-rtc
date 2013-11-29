@@ -22,13 +22,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.gerrit.common.ChangeListener;
+import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.validators.CommitValidationListener;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
+
 import com.googlesource.gerrit.plugins.hooks.its.ItsFacade;
-import com.googlesource.gerrit.plugins.hooks.its.ItsName;
 import com.googlesource.gerrit.plugins.hooks.rtc.filters.RTCAddComment;
 import com.googlesource.gerrit.plugins.hooks.rtc.filters.RTCAddRelatedLinkToChangeId;
 import com.googlesource.gerrit.plugins.hooks.rtc.filters.RTCAddRelatedLinkToGitWeb;
@@ -40,16 +41,19 @@ public class RTCModule extends AbstractModule {
   private static final Logger LOG = LoggerFactory.getLogger(RTCModule.class);
   private static final int THREAD_POOL_EXECUTORS = 10;
 
+  private final String pluginName;
   private final Config gerritConfig;
 
   @Inject
-  public RTCModule(@GerritServerConfig final Config config) {
+  public RTCModule(@PluginName String pluginName,
+      @GerritServerConfig final Config config) {
+    this.pluginName = pluginName;
     this.gerritConfig = config;
   }
 
   @Override
   protected void configure() {
-    if (isConfigPresent(RTCItsFacade.ITS_NAME_RTC)) {
+    if (isConfigPresent(pluginName)) {
       LOG.info("RTC is configured as ITS");
       bind(ItsFacade.class).to(RTCItsFacade.class);
 
@@ -58,8 +62,6 @@ public class RTCModule extends AbstractModule {
 
       bind(ExecutorService.class).toInstance(
           new ScheduledThreadPoolExecutor(THREAD_POOL_EXECUTORS));
-      bind(String.class).annotatedWith(ItsName.class).toInstance(
-          RTCItsFacade.ITS_NAME_RTC);
 
       DynamicSet.bind(binder(), ChangeListener.class).to(
           RTCAddRelatedLinkToChangeId.class);

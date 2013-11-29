@@ -18,6 +18,7 @@ import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.pgm.init.InitStep;
 import com.google.gerrit.pgm.init.Section;
 import com.google.gerrit.pgm.init.Section.Factory;
@@ -33,6 +34,7 @@ import com.googlesource.gerrit.plugins.hooks.validation.ItsAssociationPolicy;
 class InitRTC extends InitIts implements InitStep {
   private static final Logger log = LoggerFactory.getLogger(InitRTC.class);
   private static final String COMMENT_LINK_SECTION = "commentLink";
+  private final String pluginName;
   private final ConsoleUI ui;
   private Section rtc;
   private Section rtcComment;
@@ -43,15 +45,17 @@ class InitRTC extends InitIts implements InitStep {
 
 
   @Inject
-  InitRTC(final ConsoleUI ui,  final Section.Factory sections) {
+  InitRTC(final @PluginName String pluginName, final ConsoleUI ui,
+      final Section.Factory sections) {
+    this.pluginName = pluginName;
     this.ui = ui;
     this.sections = sections;
   }
 
   public void run() {
-    this.rtc = sections.get(RTCItsFacade.ITS_NAME_RTC, null);
+    this.rtc = sections.get(pluginName, null);
     this.rtcComment =
-        sections.get(COMMENT_LINK_SECTION, RTCItsFacade.ITS_NAME_RTC);
+        sections.get(COMMENT_LINK_SECTION, pluginName);
 
     ui.message("\n");
     ui.header("IBM Rational Team Concert connectivity");
@@ -73,7 +77,7 @@ class InitRTC extends InitIts implements InitStep {
     rtcComment.string("RTC Issue-Id regex", "match", "RTC#([0-9]+)");
     rtcComment.set("html",
         String.format("<a href=\"%s/browse/$1\">$1</a>", rtcUrl));
-    
+
     rtcComment.select("RTC Issue-Id enforced in commit message", "association",
         ItsAssociationPolicy.OPTIONAL);
   }

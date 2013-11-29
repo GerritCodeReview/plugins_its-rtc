@@ -38,11 +38,11 @@ import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.HttpContext;
 import org.eclipse.jgit.lib.Config;
 
+import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.inject.Inject;
-import com.googlesource.gerrit.plugins.hooks.rtc.RTCItsFacade;
 import com.googlesource.gerrit.plugins.hooks.rtc.api.RtcEntity;
 import com.googlesource.gerrit.plugins.hooks.rtc.api.RtcEntityDeserializer;
 import com.googlesource.gerrit.plugins.hooks.rtc.session.SessionApi;
@@ -80,10 +80,11 @@ public class RTCClient {
   private String rtcPassword;
 
   @Inject
-  public RTCClient(@GerritServerConfig Config config, RTCHttpParams httpParams)
+  public RTCClient(@PluginName String pluginName,
+      @GerritServerConfig Config config, RTCHttpParams httpParams)
       throws IOException {
-    this(config.getString(RTCItsFacade.ITS_NAME_RTC, null, "url"), config
-        .getBoolean(RTCItsFacade.ITS_NAME_RTC, null, "sslVerify", true),
+    this(config.getString(pluginName, null, "url"), config
+        .getBoolean(pluginName, null, "sslVerify", true),
         httpParams);
   }
 

@@ -23,9 +23,9 @@ import org.apache.http.params.HttpParams;
 import org.eclipse.jgit.lib.Config;
 
 import com.google.common.base.Objects;
+import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
-import com.googlesource.gerrit.plugins.hooks.rtc.RTCItsFacade;
 
 @SuppressWarnings("deprecation")
 public class RTCHttpParams implements HttpParams {
@@ -103,10 +103,12 @@ public class RTCHttpParams implements HttpParams {
     TYPES.put(ConnManagerPNames.TIMEOUT, TYPE_LONG);
     TYPES.put(ConnManagerPNames.MAX_TOTAL_CONNECTIONS, TYPE_INT);
   }
+  private final String pluginName;
   private Config config;
 
   @Inject
-  public RTCHttpParams(@GerritServerConfig Config config) {
+  public RTCHttpParams(@PluginName String pluginName, @GerritServerConfig Config config) {
+    this.pluginName = pluginName;
     this.config = config;
   }
 
@@ -126,7 +128,7 @@ public class RTCHttpParams implements HttpParams {
   @Override
   public Object getParameter(String name) {
     String value =
-        config.getString(RTCItsFacade.ITS_NAME_RTC, null, getParamName(name));
+        config.getString(pluginName, null, getParamName(name));
     return getParameterParser(name).parse(value);
   }
 
@@ -156,7 +158,7 @@ public class RTCHttpParams implements HttpParams {
 
   @Override
   public long getLongParameter(String name, long defaultValue) {
-    return config.getLong(RTCItsFacade.ITS_NAME_RTC, null, getParamName(name),
+    return config.getLong(pluginName, null, getParamName(name),
         defaultValue);
   }
 
@@ -167,7 +169,7 @@ public class RTCHttpParams implements HttpParams {
 
   @Override
   public int getIntParameter(String name, int defaultValue) {
-    return config.getInt(RTCItsFacade.ITS_NAME_RTC, null, getParamName(name),
+    return config.getInt(pluginName, null, getParamName(name),
         defaultValue);
   }
 
@@ -188,7 +190,7 @@ public class RTCHttpParams implements HttpParams {
 
   @Override
   public boolean getBooleanParameter(String name, boolean defaultValue) {
-    return config.getBoolean(RTCItsFacade.ITS_NAME_RTC, null,
+    return config.getBoolean(pluginName, null,
         getParamName(name), defaultValue);
   }
 

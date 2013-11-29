@@ -45,7 +45,7 @@ with regards to issue-tracker associations; the following values are supported:
 
 **Example:**
 
-    [commentLink "RTC"]
+    [commentLink "its-rtc"]
     match = RTC#([0-9]*)
     html = "<a href=\"https://rtc.gerritforge.com:9443/ccm/browse/$1\">$1</a>"
     association = OPTIONAL
@@ -58,11 +58,11 @@ RTC connectivity
 -----------------
 
 In order for Gerrit to connect to RTC REST-API, url and credentials
-are required in your gerrit.config / secure.config under the [rtc] section.
+are required in your gerrit.config / secure.config under the [its-rtc] section.
 
 **Example:**
 
-    [rtc]
+    [its-rtc]
     url=https://rtc.gerritforge.com:9443/ccm
     username=rtcuser
     passsword=rtcpass
@@ -81,7 +81,7 @@ security level, pooling and network settings. This allows the administrator
 to have full control of the output pipe to RTC and the propagation of the Change events
 to the associated issues in a high-loaded production environment.
 
-All settings are defined in gerrit.config under the same [rtc] section.
+All settings are defined in gerrit.config under the same [its-rtc] section.
 See below the list of the most important parameters and their associated meaning.
 
 `sslVerify`
