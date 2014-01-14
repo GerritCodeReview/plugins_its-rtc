@@ -15,6 +15,7 @@ package com.googlesource.gerrit.plugins.hooks.rtc;
 
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.pgm.init.AllProjectsConfig;
+import com.google.gerrit.pgm.init.AllProjectsNameOnInitProvider;
 import com.google.gerrit.pgm.init.Section;
 import com.google.gerrit.pgm.util.ConsoleUI;
 import com.google.inject.Inject;
@@ -41,10 +42,11 @@ class InitRTC extends InitIts {
   private String rtcPassword;
 
   @Inject
-  InitRTC(@PluginName String pluginName, ConsoleUI ui, Section.Factory sections,
-      AllProjectsConfig allProjectsConfig) {
+  InitRTC(@PluginName String pluginName, ConsoleUI ui,
+      Section.Factory sections, AllProjectsConfig allProjectsConfig,
+      AllProjectsNameOnInitProvider allProjects) {
     super(pluginName, "IBM Rational Team Concert", ui,
-        allProjectsConfig);
+        allProjectsConfig, allProjects);
     this.pluginName = pluginName;
     this.sections = sections;
   }
