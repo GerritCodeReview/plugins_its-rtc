@@ -185,6 +185,7 @@ bogus settings to prevent Gerrit plugin to start correctly.
     ***
 
     Issue tracker integration for all projects? [DISABLED/?]: enabled
+    Branches for which the issue tracker integration should be enabled (ref, ref pattern or regular expression) [refs/heads/*]:
 
     *** IBM Rational Team Concert connectivity
 	*** 
