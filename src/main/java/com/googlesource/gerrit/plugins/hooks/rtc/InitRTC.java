@@ -51,8 +51,9 @@ class InitRTC extends InitIts {
     this.sections = sections;
   }
 
-  public void postRun() throws IOException, ConfigInvalidException {
-    super.postRun();
+  @Override
+  public void run() throws IOException, ConfigInvalidException {
+    super.run();
 
     this.rtc = sections.get(pluginName, null);
     this.rtcComment =
