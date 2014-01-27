@@ -22,14 +22,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.gerrit.common.ChangeListener;
+import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.config.PluginConfigFactory;
+import com.google.gerrit.server.config.ProjectConfigEntry;
 import com.google.gerrit.server.git.validators.CommitValidationListener;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 
 import com.googlesource.gerrit.plugins.hooks.its.ItsFacade;
+import com.googlesource.gerrit.plugins.hooks.its.ItsHookEnabledConfigEntry;
 import com.googlesource.gerrit.plugins.hooks.rtc.filters.RTCAddComment;
 import com.googlesource.gerrit.plugins.hooks.rtc.filters.RTCAddRelatedLinkToChangeId;
 import com.googlesource.gerrit.plugins.hooks.rtc.filters.RTCAddRelatedLinkToGitWeb;
@@ -43,12 +47,14 @@ public class RTCModule extends AbstractModule {
 
   private final String pluginName;
   private final Config gerritConfig;
+  private final PluginConfigFactory pluginCfgFactory;
 
   @Inject
   public RTCModule(@PluginName String pluginName,
-      @GerritServerConfig final Config config) {
+      @GerritServerConfig Config config, PluginConfigFactory pluginCfgFactory) {
     this.pluginName = pluginName;
     this.gerritConfig = config;
+    this.pluginCfgFactory = pluginCfgFactory;
   }
 
   @Override
@@ -56,6 +62,11 @@ public class RTCModule extends AbstractModule {
     if (isConfigPresent(pluginName)) {
       LOG.info("RTC is configured as ITS");
       bind(ItsFacade.class).to(RTCItsFacade.class);
+
+      bind(ProjectConfigEntry.class)
+          .annotatedWith(Exports.named("enabled"))
+          .toInstance(new ItsHookEnabledConfigEntry(
+              pluginName, pluginCfgFactory));
 
       DynamicSet.bind(binder(), CommitValidationListener.class).to(
           ItsValidateComment.class);
