@@ -1,0 +1,16 @@
+include_defs('//lib/maven.defs')
+
+maven_jar(
+  name = 'commons-logging',
+  id = 'commons-logging:commons-logging:1.2',
+  sha1 = '4bfc12adfe4842bf07b657f0369c4cb522955686',
+  license = 'Apache2.0',
+)
+
+maven_jar(
+  name = 'mockito',
+  id = 'org.mockito:mockito-all:1.9.5',
+  sha1 = '79a8984096fc6591c1e3690e07d41be506356fa5',
+  license = 'Apache2.0',
+)
+
