@@ -1,7 +1,55 @@
 Build
 =====
 
-This its-rtc plugin is built with Buck.
+This plugin is built with Buck.
+
+Two build modes are supported: Standalone and in Gerrit tree. Standalone
+build mode is recommended, as this mode doesn't require local Gerrit
+tree to exist.
+
+Build standalone
+----------------
+
+Prerequisites: build and install its-base library.
+
+Clone bucklets library:
+
+```
+  git clone https://gerrit.googlesource.com/bucklets
+
+```
+and link it to its-rtc directory:
+
+```
+  cd its-rtc && ln -s ../bucklets .
+```
+
+Add link to the .buckversion file:
+
+```
+  cd its-rtc && ln -s bucklets/buckversion .buckversion
+```
+
+To build the plugin, issue the following command:
+
+```
+  buck build plugin
+```
+
+The output is created in
+
+```
+  buck-out/gen/its-rtc/its-rtc.jar
+```
+
+To execute the unit tests, issue the following command:
+
+```
+  buck test
+```
+
+Build in Gerrit tree
+--------------------
 
 Clone or link this plugin to the plugins directory of Gerrit's source
 tree, and issue the command:

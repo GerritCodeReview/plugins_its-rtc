@@ -1,3 +1,8 @@
+include_defs('//bucklets/gerrit_plugin.bucklet')
+
+ITS_BASE = '//lib:its-base' if __standalone_mode__ \
+  else '//plugins/its-base:its-base__plugin'
+
 gerrit_plugin(
   name = 'its-rtc',
   srcs = glob(['src/main/java/**/*.java']),
@@ -12,8 +17,8 @@ gerrit_plugin(
     'Implementation-Vendor: GerritForge LLP',
   ],
   deps = [
-    '//plugins/its-base:its-base__plugin',
-    '//plugins/its-rtc/lib:commons-logging',
+    ITS_BASE,
+    align_path('its-rtc', '//lib:commons-logging'),
   ],
   provided_deps = [
     '//lib:gson',
@@ -24,15 +29,19 @@ gerrit_plugin(
   ],
 )
 
+java_library(
+  name = 'classpath',
+  deps = [':its-rtc__plugin'],
+)
+
 java_test(
   name = 'its-rtc_tests',
   srcs = glob(['src/test/java/**/*.java']),
   labels = ['its-rtc'],
   source_under_test = [':its-rtc__plugin'],
-  deps = [
+  deps = GERRIT_PLUGIN_API + [
     ':its-rtc__plugin',
-    '//gerrit-plugin-api:lib',
     '//lib:junit',
-    '//plugins/its-rtc/lib:mockito',
+    align_path('its-rtc', '//lib:mockito'),
   ],
 )
