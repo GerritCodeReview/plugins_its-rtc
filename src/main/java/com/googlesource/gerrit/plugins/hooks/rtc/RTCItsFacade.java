@@ -146,5 +146,12 @@ public class RTCItsFacade implements ItsFacade {
     RtcWorkItem item = client().workItemsApi().getWorkItem(workItem);
     return item != null;
   }
+  
+  @Override
+  public String getStatus(final String itemId) throws IOException {
+    long workItem = Long.parseLong(itemId);
+    RtcWorkItem item = client().workItemsApi().getWorkItem(workItem);
+    return item != null ? item.getStatus().getTitle() : null;
+  }
 
 }
