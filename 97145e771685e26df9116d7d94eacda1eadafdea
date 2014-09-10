@@ -22,6 +22,30 @@
       "revId": "97145e771685e26df9116d7d94eacda1eadafdea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "106cff13_5c7eb5ec",
+        "filename": "src/main/resources/Documentation/build.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2014-09-10T14:42:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "106cff13_b93a7bfc",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 28
+      },
+      "revId": "97145e771685e26df9116d7d94eacda1eadafdea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
