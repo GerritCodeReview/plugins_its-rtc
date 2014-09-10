@@ -63,7 +63,7 @@ public class RTCItsFacade implements ItsFacade {
 
   @Override
   public String name() {
-    return "RTC";
+    return pluginName;
   }
 
   @Override
