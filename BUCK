@@ -12,7 +12,7 @@ gerrit_plugin(
     'Implementation-Vendor: GerritForge LLP',
   ],
   deps = [
-    '//plugins/its-base:its-base__plugin',
+    ':its-base_stripped',
     '//plugins/its-rtc/lib:commons-logging',
   ],
   provided_deps = [
@@ -22,6 +22,37 @@ gerrit_plugin(
     '//lib/commons:httpcore',
     '//lib/commons:io',
   ],
+)
+
+def strip_jar(
+    name,
+    src,
+    excludes = [],
+    visibility = [],
+  ):
+  name_zip = name + '.zip'
+  genrule(
+    name = name_zip,
+    cmd = 'cp $SRCS $OUT && zip -qd $OUT ' + ' '.join(excludes),
+    srcs = [ src ],
+    deps = [ src ],
+    out = name_zip,
+    visibility = visibility,
+  )
+  prebuilt_jar(
+    name = name,
+    binary_jar = ':' + name_zip,
+    visibility = visibility,
+  )
+
+strip_jar(
+  name = 'its-base_stripped',
+  src = '//plugins/its-base:its-base',
+  excludes = [
+    'Documentation/about.md',
+    'Documentation/build.md',
+    'Documentation/config-connectivity.md',
+  ]
 )
 
 java_test(
