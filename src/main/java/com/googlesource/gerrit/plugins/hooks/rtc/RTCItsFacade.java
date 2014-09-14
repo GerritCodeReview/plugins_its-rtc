@@ -62,11 +62,6 @@ public class RTCItsFacade implements ItsFacade {
   }
 
   @Override
-  public String name() {
-    return pluginName;
-  }
-
-  @Override
   public void addComment(String itemId, String comment) throws IOException {
     long workItem = Long.parseLong(itemId);
     log.debug("Adding comment " + comment + " to workItem " + workItem);
