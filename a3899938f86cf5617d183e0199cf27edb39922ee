@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f0d12ce3_f26148ad",
+        "filename": "BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-10-08T05:12:00Z",
+      "side": 1,
+      "message": "why exclude build.md?  This one seems important and its-rtc doesn\u0027t have one.   I know the one from it-base does have references to \u0027its-base\u0027 but what if that file was re-written with more generic references? So instead of \u0027buck build plugins/its-base\u0027 it\u0027s re-written to something like \u0027buck build plugins/@PLUGIN_NAME@\u0027.",
+      "revId": "a3899938f86cf5617d183e0199cf27edb39922ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
