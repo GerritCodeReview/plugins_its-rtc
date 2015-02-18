@@ -18,7 +18,6 @@ import java.io.IOException;
 import org.apache.http.message.BasicNameValuePair;
 
 import com.googlesource.gerrit.plugins.hooks.rtc.network.AuthenticationException;
-import com.googlesource.gerrit.plugins.hooks.rtc.network.InvalidContentTypeException;
 import com.googlesource.gerrit.plugins.hooks.rtc.network.RTCClient;
 import com.googlesource.gerrit.plugins.hooks.rtc.network.Transport;
 import com.googlesource.gerrit.plugins.hooks.rtc.workitems.AbstractApiImpl;

@@ -20,6 +20,7 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.net.MalformedURLException;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
 
@@ -40,7 +41,6 @@ import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.HttpParams;
-import org.apache.http.protocol.HTTP;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -80,7 +80,7 @@ public class Transport {
     if (log.isDebugEnabled())
       log.debug("Preparing PUT against " + request.getURI() + " using etag "
           + etag + " and data " + data);
-    request.setEntity(new StringEntity(data.toString(), HTTP.UTF_8));
+    request.setEntity(new StringEntity(data.toString(), StandardCharsets.UTF_8));
     if (etag != null) request.addHeader("If-Match", etag);
     return invoke(request, typeOrClass, APP_OSLC, APP_OSLC);
   }
@@ -91,7 +91,7 @@ public class Transport {
     if (log.isDebugEnabled())
       log.debug("Preparing PATCH against " + request.getURI() + " using etag "
           + etag + " and data " + data);
-    request.setEntity(new StringEntity(data.toString(), HTTP.UTF_8));
+    request.setEntity(new StringEntity(data.toString(), StandardCharsets.UTF_8));
     if (etag != null) request.addHeader("If-Match", etag);
     return invoke(request, typeOrClass, APP_OSLC, APP_OSLC);
   }
@@ -104,7 +104,7 @@ public class Transport {
       log.debug("Preparing POST against " + request.getURI() + " using params "
           + Arrays.asList(params));
     List<NameValuePair> nameValuePairs = Arrays.asList(params);
-    request.setEntity(new UrlEncodedFormEntity(nameValuePairs, HTTP.UTF_8));
+    request.setEntity(new UrlEncodedFormEntity(nameValuePairs, StandardCharsets.UTF_8));
     return invoke(request, typeOrClass, contentType, null);
   }
 
