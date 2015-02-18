@@ -33,11 +33,10 @@ public class CachableResourcesFactory {
     return (T) getFactory(clazz).get(url);
   }
 
-  @SuppressWarnings("unchecked")
   private <T> InternalFactory<?> getFactory(Class<T> clazz) {
     InternalFactory<?> factory = factories.get(clazz);
     if (factory == null) {
-      factory = new InternalFactory(transport, clazz);
+      factory = new InternalFactory<>(transport, clazz);
       factories.put(clazz, factory);
     }
     return factory;
