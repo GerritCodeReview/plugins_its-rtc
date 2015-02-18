@@ -13,36 +13,36 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.hooks.rtc.filters;
 
+import com.google.gerrit.common.EventListener;
+import com.google.gerrit.server.events.Event;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.ArrayList;
 import java.util.Queue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.LinkedBlockingQueue;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.google.gerrit.common.ChangeListener;
-import com.google.gerrit.server.events.ChangeEvent;
-
-public class ChangeListenerAsyncDecorator<T extends ChangeListener> implements
-    ChangeListener {
+public class ChangeListenerAsyncDecorator<T extends EventListener> implements
+    EventListener {
   private static final int MAX_PENDING_EVENTS = 1024;
   private static final int MAX_BATCH_SIZE = 64;
   private static final Logger log = LoggerFactory
       .getLogger(ChangeListenerAsyncDecorator.class);
   private T innerListener;
-  private final LinkedBlockingQueue<ChangeEvent> queue =
-      new LinkedBlockingQueue<ChangeEvent>(MAX_PENDING_EVENTS);
+  private final LinkedBlockingQueue<Event> queue =
+      new LinkedBlockingQueue<>(MAX_PENDING_EVENTS);
   private ExecutorService executor;
 
   public class ChangeRunner implements Runnable {
     @Override
     public void run() {
-      ArrayList<ChangeEvent> failedEvents = new ArrayList<ChangeEvent>();
+      ArrayList<Event> failedEvents = new ArrayList<>();
       for (int i = 0; !queue.isEmpty() && i < MAX_BATCH_SIZE; i++) {
-        ChangeEvent event = queue.remove();
+        Event event = queue.remove();
         try {
-          innerListener.onChangeEvent(event);
+          innerListener.onEvent(event);
         } catch (Throwable e) {
           log.error("Execution of event " + event.getClass().getName() + "/"
               + event.toString()
@@ -50,7 +50,7 @@ public class ChangeListenerAsyncDecorator<T extends ChangeListener> implements
           failedEvents.add(event);
         }
       }
-      
+
       queue.addAll(failedEvents);
     }
   }
@@ -61,12 +61,12 @@ public class ChangeListenerAsyncDecorator<T extends ChangeListener> implements
   }
 
   @Override
-  public void onChangeEvent(ChangeEvent event) {
+  public void onEvent(Event event) {
     queue.add(event);
     executor.submit(new ChangeRunner());
   }
 
-  public Queue<ChangeEvent> getQueue() {
+  public Queue<Event> getQueue() {
     return queue;
   }
 }

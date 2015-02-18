@@ -17,10 +17,16 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Future;
+import com.google.gerrit.common.EventListener;
+import com.google.gerrit.server.events.ChangeEvent;
+
+import com.googlesource.gerrit.plugins.hooks.rtc.filters.ChangeListenerAsyncDecorator;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -30,15 +36,14 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.mockito.stubbing.Answer;
 
-import com.google.gerrit.common.ChangeListener;
-import com.google.gerrit.server.events.ChangeEvent;
-import com.googlesource.gerrit.plugins.hooks.rtc.filters.ChangeListenerAsyncDecorator;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ChangeListenerAsyncDecoratorTest {
 
   @Mock
-  ChangeListener listener;
+  EventListener listener;
   @Mock
   ChangeEvent event;
   @Mock
@@ -46,7 +51,7 @@ public class ChangeListenerAsyncDecoratorTest {
   @Mock
   ExecutorService immediateExecutor;
 
-  ChangeListenerAsyncDecorator<ChangeListener> asyncListener;
+  ChangeListenerAsyncDecorator<EventListener> asyncListener;
 
   @Before
   public void setUp() {
@@ -62,7 +67,7 @@ public class ChangeListenerAsyncDecoratorTest {
           }
         });
     asyncListener =
-        new ChangeListenerAsyncDecorator<ChangeListener>(listener, executor);
+        new ChangeListenerAsyncDecorator<EventListener>(listener, executor);
   }
 
   @Test
@@ -72,19 +77,19 @@ public class ChangeListenerAsyncDecoratorTest {
 
   @Test
   public void testQueueShouldNotBeEmptyWhenOneEventSubmitted() {
-    asyncListener.onChangeEvent(event);
+    asyncListener.onEvent(event);
     assertFalse(asyncListener.getQueue().isEmpty());
   }
 
   @Test
   public void testChangeEventShouldBeQueuedWhenSubmitted() {
-    asyncListener.onChangeEvent(event);
+    asyncListener.onEvent(event);
     assertEquals(event, asyncListener.getQueue().peek());
   }
 
   @Test
   public void testChangeEventShouldBeSentToExecutor() {
-    asyncListener.onChangeEvent(event);
+    asyncListener.onEvent(event);
     verify(executor).submit(
         any(ChangeListenerAsyncDecorator.ChangeRunner.class));
   }
@@ -92,42 +97,39 @@ public class ChangeListenerAsyncDecoratorTest {
   @Test
   public void testChangeEventShouldBePropagatedToListenerWhenImmediatelyExecuted() {
     asyncListener =
-        new ChangeListenerAsyncDecorator<ChangeListener>(listener,
-            immediateExecutor);
-    asyncListener.onChangeEvent(event);
-    verify(listener).onChangeEvent(event);
+        new ChangeListenerAsyncDecorator<>(listener, immediateExecutor);
+    asyncListener.onEvent(event);
+    verify(listener).onEvent(event);
     assertTrue(asyncListener.getQueue().isEmpty());
   }
 
   @Test
   public void testChangeEventShouldStayInQueueWhenExecutionFailed() {
     asyncListener =
-        new ChangeListenerAsyncDecorator<ChangeListener>(listener,
-            immediateExecutor);
-    doThrow(new IllegalArgumentException()).when(listener).onChangeEvent(
+        new ChangeListenerAsyncDecorator<>(listener, immediateExecutor);
+    doThrow(new IllegalArgumentException()).when(listener).onEvent(
         any(ChangeEvent.class));
 
-    asyncListener.onChangeEvent(event);
-    verify(listener).onChangeEvent(event);
+    asyncListener.onEvent(event);
+    verify(listener).onEvent(event);
     assertFalse(asyncListener.getQueue().isEmpty());
   }
-  
+
   @Test
   public void testChangeShouldProcessAllPreviouslyFailedEventsInQueue() {
     asyncListener =
-        new ChangeListenerAsyncDecorator<ChangeListener>(listener,
-            immediateExecutor);
-    
-    doThrow(new IllegalArgumentException()).when(listener).onChangeEvent(
+        new ChangeListenerAsyncDecorator<>(listener, immediateExecutor);
+
+    doThrow(new IllegalArgumentException()).when(listener).onEvent(
         any(ChangeEvent.class));
-    asyncListener.onChangeEvent(event);
-    verify(listener).onChangeEvent(event);
+    asyncListener.onEvent(event);
+    verify(listener).onEvent(event);
     assertFalse(asyncListener.getQueue().isEmpty());
-    
-    doNothing().when(listener).onChangeEvent(any(ChangeEvent.class));
-    asyncListener.onChangeEvent(event);
-    verify(listener, times(3)).onChangeEvent(event);
-    
+
+    doNothing().when(listener).onEvent(any(ChangeEvent.class));
+    asyncListener.onEvent(event);
+    verify(listener, times(3)).onEvent(event);
+
     assertTrue(asyncListener.getQueue().isEmpty());
   }
 

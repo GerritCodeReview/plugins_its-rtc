@@ -21,7 +21,7 @@ import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.gerrit.common.ChangeListener;
+import com.google.gerrit.common.EventListener;
 import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.extensions.registration.DynamicSet;
@@ -74,11 +74,11 @@ public class RTCModule extends AbstractModule {
       bind(ExecutorService.class).toInstance(
           new ScheduledThreadPoolExecutor(THREAD_POOL_EXECUTORS));
 
-      DynamicSet.bind(binder(), ChangeListener.class).to(
+      DynamicSet.bind(binder(), EventListener.class).to(
           RTCAddRelatedLinkToChangeId.class);
-      DynamicSet.bind(binder(), ChangeListener.class).to(RTCAddComment.class);
-      DynamicSet.bind(binder(), ChangeListener.class).to(RTCChangeState.class);
-      DynamicSet.bind(binder(), ChangeListener.class).to(
+      DynamicSet.bind(binder(), EventListener.class).to(RTCAddComment.class);
+      DynamicSet.bind(binder(), EventListener.class).to(RTCChangeState.class);
+      DynamicSet.bind(binder(), EventListener.class).to(
           RTCAddRelatedLinkToGitWeb.class);
     }
   }
