@@ -125,11 +125,6 @@ public class RTCItsFacade implements ItsFacade {
     return gerritConfig.getString(pluginName, null, GERRIT_CONFIG_CCM_URL);
   }
 
-  private boolean getSslVerify() {
-    return gerritConfig.getBoolean(pluginName, null,
-        GERRIT_CONFIG_SSL_VERIFY, true);
-  }
-
   @Override
   public String createLinkForWebui(String url, String text) {
     return "<a href=\"" + url + "\">" + text + "</a>";
