@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "451a45b5_0907ed00",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/hooks/rtc/InitRTC.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-03-06T05:53:00Z",
+      "side": 0,
+      "message": "init.api is the correct package on the master branch",
+      "range": {
+        "startLine": 17,
+        "startChar": 30,
+        "endLine": 18,
+        "endChar": 38
+      },
+      "revId": "302dbaf575b02c1dd03bb1e02ace1bfef57155e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
