@@ -18,8 +18,8 @@ gerrit_plugin(
   provided_deps = [
     '//lib:gson',
     '//lib/commons:codec',
-    '//lib/commons:httpclient',
-    '//lib/commons:httpcore',
+    '//lib/httpcomponents:httpclient',
+    '//lib/httpcomponents:httpcore',
     '//lib/commons:io',
   ],
 )
