@@ -16,6 +16,24 @@
       "revId": "b3524321e3d648136310164a1a7545b9365f8081",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0dd15d8c_28706bd6",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2015-05-24T22:01:29Z",
+      "side": 0,
+      "message": "You\u0027re right.\n\nMost parts are inherited by its-base, but the \"HTTP/S and\nnetwork settings\" part is not.\nHence, I added that part to the config-connectivity.md in PS2.",
+      "parentUuid": "f0d12ce3_926ebc9c",
+      "revId": "b3524321e3d648136310164a1a7545b9365f8081",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
