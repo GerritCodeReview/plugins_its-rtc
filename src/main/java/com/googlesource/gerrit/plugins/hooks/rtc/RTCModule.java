@@ -34,11 +34,7 @@ import com.google.inject.Inject;
 
 import com.googlesource.gerrit.plugins.hooks.its.ItsFacade;
 import com.googlesource.gerrit.plugins.hooks.its.ItsHookEnabledConfigEntry;
-import com.googlesource.gerrit.plugins.hooks.rtc.filters.RTCAddComment;
-import com.googlesource.gerrit.plugins.hooks.rtc.filters.RTCAddRelatedLinkToChangeId;
-import com.googlesource.gerrit.plugins.hooks.rtc.filters.RTCAddRelatedLinkToGitWeb;
-import com.googlesource.gerrit.plugins.hooks.rtc.filters.RTCChangeState;
-import com.googlesource.gerrit.plugins.hooks.validation.ItsValidateComment;
+import com.googlesource.gerrit.plugins.hooks.ItsHookModule;
 
 public class RTCModule extends AbstractModule {
 
@@ -68,18 +64,7 @@ public class RTCModule extends AbstractModule {
           .toInstance(new ItsHookEnabledConfigEntry(
               pluginName, pluginCfgFactory));
 
-      DynamicSet.bind(binder(), CommitValidationListener.class).to(
-          ItsValidateComment.class);
-
-      bind(ExecutorService.class).toInstance(
-          new ScheduledThreadPoolExecutor(THREAD_POOL_EXECUTORS));
-
-      DynamicSet.bind(binder(), EventListener.class).to(
-          RTCAddRelatedLinkToChangeId.class);
-      DynamicSet.bind(binder(), EventListener.class).to(RTCAddComment.class);
-      DynamicSet.bind(binder(), EventListener.class).to(RTCChangeState.class);
-      DynamicSet.bind(binder(), EventListener.class).to(
-          RTCAddRelatedLinkToGitWeb.class);
+      install(new ItsHookModule(pluginName, pluginCfgFactory));
     }
   }
 
