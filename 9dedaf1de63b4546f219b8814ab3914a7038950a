@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d9d46c30_3648787c",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/its/rtc/InitRTC.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-06-09T02:16:29Z",
+      "side": 1,
+      "message": "These should also be changed in its-base.",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 77
+      },
+      "revId": "9dedaf1de63b4546f219b8814ab3914a7038950a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
