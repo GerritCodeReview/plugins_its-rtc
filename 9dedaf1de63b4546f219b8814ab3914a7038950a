@@ -22,6 +22,30 @@
       "revId": "9dedaf1de63b4546f219b8814ab3914a7038950a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39e908fb_313410e5",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/its/rtc/InitRTC.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2015-06-09T10:49:27Z",
+      "side": 1,
+      "message": "True.\n\nI intended to wait with that for a bit, since it\u0027s already so much moving things around. And I wanted to let the dust settle a bit.\n\nBut I saw you uploaded I9447bf5c7d788cb9f5ee0fe36030f69355141532\nso let\u0027s do it right away too. Thanks! :-)",
+      "parentUuid": "d9d46c30_3648787c",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 77
+      },
+      "revId": "9dedaf1de63b4546f219b8814ab3914a7038950a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
