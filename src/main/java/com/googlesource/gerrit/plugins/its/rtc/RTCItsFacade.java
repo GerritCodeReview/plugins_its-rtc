@@ -25,7 +25,7 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 
-import com.googlesource.gerrit.plugins.hooks.its.ItsFacade;
+import com.googlesource.gerrit.plugins.its.base.its.ItsFacade;
 import com.googlesource.gerrit.plugins.its.rtc.network.RTCClient;
 import com.googlesource.gerrit.plugins.its.rtc.workitems.RtcComment;
 import com.googlesource.gerrit.plugins.its.rtc.workitems.RtcRelatedLink;

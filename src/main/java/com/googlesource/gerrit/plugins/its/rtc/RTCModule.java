@@ -32,9 +32,9 @@ import com.google.gerrit.server.git.validators.CommitValidationListener;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 
-import com.googlesource.gerrit.plugins.hooks.its.ItsFacade;
-import com.googlesource.gerrit.plugins.hooks.its.ItsHookEnabledConfigEntry;
-import com.googlesource.gerrit.plugins.hooks.ItsHookModule;
+import com.googlesource.gerrit.plugins.its.base.ItsHookModule;
+import com.googlesource.gerrit.plugins.its.base.its.ItsFacade;
+import com.googlesource.gerrit.plugins.its.base.its.ItsHookEnabledConfigEntry;
 
 public class RTCModule extends AbstractModule {
 
