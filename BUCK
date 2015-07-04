@@ -4,8 +4,8 @@ gerrit_plugin(
   resources = glob(['src/main/resources/**/*']),
   manifest_entries = [
     'Gerrit-PluginName: its-rtc',
-    'Gerrit-Module: com.googlesource.gerrit.plugins.hooks.rtc.RTCModule',
-    'Gerrit-InitStep: com.googlesource.gerrit.plugins.hooks.rtc.InitRTC',
+    'Gerrit-Module: com.googlesource.gerrit.plugins.its.rtc.RTCModule',
+    'Gerrit-InitStep: com.googlesource.gerrit.plugins.its.rtc.InitRTC',
     'Gerrit-ReloadMode: reload',
     'Implementation-Title: Plugin its-rtc',
     'Implementation-URL: http://www.gerritforge.com',
