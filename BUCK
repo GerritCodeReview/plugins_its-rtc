@@ -14,13 +14,13 @@ gerrit_plugin(
   deps = [
     ':its-base_stripped',
     '//plugins/its-rtc/lib:commons-logging',
+    '//plugins/its-rtc/lib:commons-io',
   ],
   provided_deps = [
     '//lib:gson',
     '//lib/commons:codec',
     '//lib/httpcomponents:httpclient',
     '//lib/httpcomponents:httpcore',
-    '//lib/commons:io',
   ],
 )
 
