@@ -34,7 +34,6 @@ import java.util.Arrays;
 /** Initialize the GitRepositoryManager configuration section. */
 @Singleton
 class InitRTC extends InitIts {
-  private static final String COMMENT_LINK_SECTION = "commentLink";
   private final String pluginName;
   private final InitFlags flags;
   private Section rtc;

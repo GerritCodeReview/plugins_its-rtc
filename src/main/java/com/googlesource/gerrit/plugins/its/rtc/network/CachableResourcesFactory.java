@@ -22,12 +22,12 @@ public class CachableResourcesFactory {
 
   public final Map<Class<?>, InternalFactory<?>> factories;
   private Transport transport;
- 
+
   public CachableResourcesFactory(Transport transport) {
     this.transport = transport;
-    this.factories = new ConcurrentHashMap<Class<?>, InternalFactory<?>>();
+    this.factories = new ConcurrentHashMap<>();
   }
-  
+
   @SuppressWarnings("unchecked")
   public <T> T get(String url, Class<T> clazz) throws IOException {
     return (T) getFactory(clazz).get(url);
@@ -51,19 +51,19 @@ public class CachableResourcesFactory {
     private InternalFactory(Transport transport, Class<T> clazz) {
       this.transport = transport;
       this.clazz = clazz;
-      this.cache = new ConcurrentHashMap<String, T>();
+      this.cache = new ConcurrentHashMap<>();
     }
-    
+
     private T get(final String url) throws IOException {
       T result = cache.get(url);
       if (result == null) {
         result = streamResourceFrom(url, clazz);
         cache.put(url, result);
       }
-      
+
       return result;
     }
-    
+
     private T streamResourceFrom(final String url, final Class<T> clazz) throws IOException {
       return transport.get(url+".json", clazz);
     }

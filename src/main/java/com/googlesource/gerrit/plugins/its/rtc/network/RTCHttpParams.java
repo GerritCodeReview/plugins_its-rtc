@@ -74,7 +74,7 @@ public class RTCHttpParams implements HttpParams {
   };
 
   private static final HashMap<String, ParameterParser> TYPES =
-      new HashMap<String, RTCHttpParams.ParameterParser>();
+      new HashMap<>();
   static {
 
     TYPES.put(CoreConnectionPNames.SO_TIMEOUT, TYPE_INT);

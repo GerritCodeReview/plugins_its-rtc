@@ -100,7 +100,7 @@ public class RTCItsFacade implements ItsFacade {
     return "{\"status\"=\"ok\",\"system\"=\"RTC\",}";
   }
 
-  private RTCClient client() throws IOException {
+  private RTCClient client() {
 
     if (client == null) {
       client = injector.getInstance(RTCClient.class);

@@ -20,11 +20,11 @@ import com.googlesource.gerrit.plugins.its.rtc.network.Transport;
 public class RtcObject {
   private String rdf;
   private String etag;
-  
+
   public RtcObject() {
     this(null, null);
   }
-  
+
   protected RtcObject(String rdf) {
     this(rdf, Transport.etag.get());
   }
@@ -38,11 +38,12 @@ public class RtcObject {
   public String getRdf() {
     return rdf;
   }
-  
+
   public String getEtag() {
     return etag;
   }
-  
+
+  @Override
   public String toString() {
     return new Gson().toJson(this);
   }

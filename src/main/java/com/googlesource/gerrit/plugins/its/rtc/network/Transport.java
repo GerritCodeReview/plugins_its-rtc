@@ -56,7 +56,7 @@ public class Transport {
 
   private static final Log log = LogFactory.getLog(Transport.class);
 
-  public static final ThreadLocal<String> etag = new ThreadLocal<String>();
+  public static final ThreadLocal<String> etag = new ThreadLocal<>();
 
   protected HttpClient httpclient;
   protected Gson gson;
@@ -185,7 +185,7 @@ public class Transport {
   }
 
   private boolean assertValidContentType(String acceptType,
-      String responseContentTypeString) throws IOException {
+      String responseContentTypeString) {
     if (acceptType == null) {
       return true;
     }
@@ -259,22 +259,21 @@ public class Transport {
         etagHeader.getValue().length() - 1);
   }
 
-  private HttpGet newHttpGet(final String path) throws MalformedURLException {
+  private HttpGet newHttpGet(final String path) {
     HttpGet get = new HttpGet(toUri(path));
     get.setParams(httpParams);
     return get;
   }
 
-  private HttpPost newHttpPost(final String path) throws MalformedURLException {
+  private HttpPost newHttpPost(final String path) {
     return new HttpPost(toUri(path));
   }
 
-  private HttpPatch newHttpPatch(final String path)
-      throws MalformedURLException {
+  private HttpPatch newHttpPatch(final String path) {
     return new HttpPatch(toUri(path));
   }
 
-  private String toUri(final String path) throws MalformedURLException {
+  private String toUri(final String path) {
     if (path.startsWith(baseUrl))
       return path;
     else
