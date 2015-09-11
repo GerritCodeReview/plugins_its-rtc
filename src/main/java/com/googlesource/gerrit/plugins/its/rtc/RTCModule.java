@@ -19,18 +19,15 @@ import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.PluginConfigFactory;
-import com.google.gerrit.server.config.ProjectConfigEntry;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Scopes;
 
 import com.googlesource.gerrit.plugins.its.base.ItsHookModule;
 import com.googlesource.gerrit.plugins.its.base.its.ItsFacade;
-import com.googlesource.gerrit.plugins.its.base.its.ItsHookEnabledConfigEntry;
 
 public class RTCModule extends AbstractModule {
 
@@ -53,11 +50,6 @@ public class RTCModule extends AbstractModule {
     if (isConfigPresent(pluginName)) {
       LOG.info("RTC is configured as ITS");
       bind(ItsFacade.class).to(RTCItsFacade.class).in(Scopes.SINGLETON);
-
-      bind(ProjectConfigEntry.class)
-          .annotatedWith(Exports.named("enabled"))
-          .toInstance(new ItsHookEnabledConfigEntry(
-              pluginName, pluginCfgFactory));
 
       install(new ItsHookModule(pluginName, pluginCfgFactory));
     }
