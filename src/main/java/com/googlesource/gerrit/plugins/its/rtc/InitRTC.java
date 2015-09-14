@@ -107,8 +107,9 @@ class InitRTC extends InitIts {
 
     ui.header("Rational Team Concert issue-tracking association");
     rtcComment.string("RTC Issue-Id regex", "match", "RTC#([0-9]+)");
+    String workItemLink = "resource/itemName/com.ibm.team.workitem.WorkItem/$1";
     rtcComment.set("html",
-        String.format("<a href=\"%s/browse/$1\">$1</a>", rtcUrl));
+        String.format("<a href=\"%s/%s\">$1</a>", rtcUrl, workItemLink));
 
     rtcComment.select("RTC Issue-Id enforced in commit message", "association",
         ItsAssociationPolicy.OPTIONAL);
