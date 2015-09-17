@@ -22,6 +22,30 @@
       "revId": "e55c5a4cfa01097c156744b16d104adadda79615",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "89970b02_fe5a8166",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/its/rtc/network/RTCClient.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-09-17T14:33:33Z",
+      "side": 0,
+      "message": "Nope, it was possibly only a typo. It was working anyway only because the setLoggedIn is called only once and with b\u003dfalse :-)",
+      "parentUuid": "09d23be7_3224b0ef",
+      "range": {
+        "startLine": 233,
+        "startChar": 15,
+        "endLine": 233,
+        "endChar": 20
+      },
+      "revId": "e55c5a4cfa01097c156744b16d104adadda79615",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
