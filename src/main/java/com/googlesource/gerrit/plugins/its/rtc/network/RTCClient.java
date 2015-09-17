@@ -230,6 +230,6 @@ public class RTCClient {
   }
 
   public void setLoggedIn(boolean b) {
-    loggedIn = false;
+    loggedIn = b;
   }
 }
