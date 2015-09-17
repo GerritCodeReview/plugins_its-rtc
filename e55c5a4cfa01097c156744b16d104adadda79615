@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "09d23be7_3224b0ef",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/its/rtc/network/RTCClient.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-09-17T14:25:39Z",
+      "side": 0,
+      "message": "According to the git blame, this line was added by Luca.\n\nLuca, was this done intentionally for some reason?",
+      "range": {
+        "startLine": 233,
+        "startChar": 15,
+        "endLine": 233,
+        "endChar": 20
+      },
+      "revId": "e55c5a4cfa01097c156744b16d104adadda79615",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
