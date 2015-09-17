@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "898d4b47_4eb8f3fd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2015-09-17T22:39:20Z",
+      "side": 1,
+      "message": "This seems to point at a different issue, namely that the\nPlugin connects to RTC everytime afresh.\n\nLooking at the RTCModule, there is indeed only a binding to\nthe class\n\n  bind(ItsFacade.class).to(RTCItsFacade.class);\n\n(hence it get instantiated afresh for each action), while\nother its-* plugins bind to an instance.\n\nits-bugzilla:\n\n  bind(ItsFacade.class).toInstance(new BugzillaItsFacade(pluginName, gerritConfig));\n\nits-jira:\n\n  bind(ItsFacade.class).toInstance(new JiraItsFacade(pluginName, gerritConfig));\n\nI think the right thing to do would be to make RTC also bind\nan instance (akin to its-bugzilla and its-jira), and hence\nreuse the instance for all requests.\n\nBut I currently (and it will certainly be a few weeks till\nI get access) don\u0027t have access to a RTC, hence I cannot\ntest how well such binding to an instance behaves if\nthere are connection issues.\n\nMhmmm. Not sure.\nShould we wait for a proper fix (binding to instance +\nmaking sure reconnects work), or should we merge this fix\nas a stop-gap measure to at least silence the logs until we\nend up with a proper fix?",
+      "revId": "677d9a53bc12e3734118b55d9ad725d45f932307",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
