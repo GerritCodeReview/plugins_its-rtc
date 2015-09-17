@@ -55,7 +55,7 @@ public class RTCItsFacade implements ItsFacade {
       this.injector = injector;
       this.gerritConfig = gerritConfig;
       client().ping();
-      log.info("Connected to RTC at " + getRtcUrl() + " as admin user "
+      log.debug("Connected to RTC at " + getRtcUrl() + " as admin user "
           + getRtcUser());
     } catch (Exception ex) {
       log.warn("RTC is currently not available", ex);
