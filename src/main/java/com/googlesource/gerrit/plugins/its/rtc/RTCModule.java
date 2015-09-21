@@ -26,6 +26,7 @@ import com.google.gerrit.server.config.PluginConfigFactory;
 import com.google.gerrit.server.config.ProjectConfigEntry;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
+import com.google.inject.Scopes;
 
 import com.googlesource.gerrit.plugins.its.base.ItsHookModule;
 import com.googlesource.gerrit.plugins.its.base.its.ItsFacade;
@@ -51,7 +52,7 @@ public class RTCModule extends AbstractModule {
   protected void configure() {
     if (isConfigPresent(pluginName)) {
       LOG.info("RTC is configured as ITS");
-      bind(ItsFacade.class).to(RTCItsFacade.class);
+      bind(ItsFacade.class).to(RTCItsFacade.class).in(Scopes.SINGLETON);
 
       bind(ProjectConfigEntry.class)
           .annotatedWith(Exports.named("enabled"))
