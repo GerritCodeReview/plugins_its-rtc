@@ -13,36 +13,23 @@ gerrit_plugin(
   ],
   deps = [
     ':its-base_stripped',
-    '//plugins/its-rtc/lib:commons-logging',
-    '//plugins/its-rtc/lib:commons-io',
-  ],
-  provided_deps = [
-    '//lib:gson',
-    '//lib/commons:codec',
-    '//lib/httpcomponents:httpclient',
-    '//lib/httpcomponents:httpcore',
   ],
 )
 
 def strip_jar(
     name,
     src,
-    excludes = [],
-    visibility = [],
-  ):
+    excludes):
   name_zip = name + '.zip'
   genrule(
     name = name_zip,
     cmd = 'cp $SRCS $OUT && zip -qd $OUT ' + ' '.join(excludes),
-    srcs = [ src ],
-    deps = [ src ],
+    srcs = [src],
     out = name_zip,
-    visibility = visibility,
   )
   prebuilt_jar(
     name = name,
     binary_jar = ':' + name_zip,
-    visibility = visibility,
   )
 
 strip_jar(
@@ -53,17 +40,4 @@ strip_jar(
     'Documentation/build.md',
     'Documentation/config-connectivity.md',
   ]
-)
-
-java_test(
-  name = 'its-rtc_tests',
-  srcs = glob(['src/test/java/**/*.java']),
-  labels = ['its-rtc'],
-  source_under_test = [':its-rtc__plugin'],
-  deps = [
-    ':its-rtc__plugin',
-    '//gerrit-plugin-api:lib',
-    '//lib:junit',
-    '//plugins/its-rtc/lib:mockito',
-  ],
 )

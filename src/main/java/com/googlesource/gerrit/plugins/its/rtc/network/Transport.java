@@ -24,9 +24,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
 
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -41,7 +38,10 @@ import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.HttpParams;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import com.google.common.io.ByteStreams;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
@@ -54,7 +54,7 @@ public class Transport {
   public static final String APP_OSLC =
       "application/x-oslc-cm-change-request+json";
 
-  private static final Log log = LogFactory.getLog(Transport.class);
+  private static final Logger log = LoggerFactory.getLogger(Transport.class);
 
   public static final ThreadLocal<String> etag = new ThreadLocal<>();
 
@@ -230,7 +230,7 @@ public class Transport {
 
     ByteArrayOutputStream responseOut = new ByteArrayOutputStream();
     try {
-      IOUtils.copy(response.getEntity().getContent(), responseOut);
+      ByteStreams.copy(response.getEntity().getContent(), responseOut);
     } finally {
       responseOut.close();
     }

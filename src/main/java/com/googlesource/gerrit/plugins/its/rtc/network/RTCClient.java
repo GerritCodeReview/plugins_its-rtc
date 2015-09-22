@@ -21,8 +21,6 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.http.HttpResponse;
 import org.apache.http.conn.scheme.PlainSocketFactory;
 import org.apache.http.conn.scheme.Scheme;
@@ -37,6 +35,9 @@ import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.HttpContext;
 import org.eclipse.jgit.lib.Config;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -61,7 +62,7 @@ import com.googlesource.gerrit.plugins.its.rtc.workitems.WorkItemsApiImpl;
 
 public class RTCClient {
 
-  private static Log LOG = LogFactory.getLog(RTCClient.class);
+  private static Logger LOG = LoggerFactory.getLogger(RTCClient.class);
 
   private String baseUrl;
   private DefaultHttpClient httpclient;
