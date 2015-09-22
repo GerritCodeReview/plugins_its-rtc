@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4997d354_ac432379",
+        "filename": "BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-09-22T07:45:15Z",
+      "side": 0,
+      "message": "True that this wasn\u0027t used, BUT I would leave it in and add at least one test ;-)",
+      "range": {
+        "startLine": 58,
+        "startChar": 0,
+        "endLine": 68,
+        "endChar": 4
+      },
+      "revId": "677d9a53bc12e3734118b55d9ad725d45f932307",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
