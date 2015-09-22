@@ -46,6 +46,30 @@
       "revId": "677d9a53bc12e3734118b55d9ad725d45f932307",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "898d4b47_2e864707",
+        "filename": "BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-09-22T08:01:07Z",
+      "side": 0,
+      "message": "Fair enough :-) .... let me push a change that add at least one test ;-)",
+      "parentUuid": "4997d354_cc406f6f",
+      "range": {
+        "startLine": 58,
+        "startChar": 0,
+        "endLine": 68,
+        "endChar": 4
+      },
+      "revId": "677d9a53bc12e3734118b55d9ad725d45f932307",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
