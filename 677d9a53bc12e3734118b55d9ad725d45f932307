@@ -22,6 +22,30 @@
       "revId": "677d9a53bc12e3734118b55d9ad725d45f932307",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4997d354_cc406f6f",
+        "filename": "BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-09-22T07:59:00Z",
+      "side": 0,
+      "message": ";-)\n\nThe policy on gerrit-review is: every commit is self contained and correct. The parent of this change is doesn\u0027t have any unit tests, that why this build rule is broken. When this change is going to be merged, this would still be correct, when no test exist. If you want to add tests later, just add these lines again. When you add tests and merge your change before this one. I will rebase this change on top of your change (or master).",
+      "parentUuid": "4997d354_ac432379",
+      "range": {
+        "startLine": 58,
+        "startChar": 0,
+        "endLine": 68,
+        "endChar": 4
+      },
+      "revId": "677d9a53bc12e3734118b55d9ad725d45f932307",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
