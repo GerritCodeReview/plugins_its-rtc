@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "898d4b47_4e7b93ba",
+        "filename": "BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-09-22T14:59:20Z",
+      "side": 1,
+      "message": "I wonder why it\u0027s needed? Gerri core is using slf4j.\n\nThis plugin is using both:\n\n  com.googlesource.gerrit.plugins.its.rtc.network.RTCClient.hava:\n  \n  import org.apache.commons.logging.LogFactory\n  private static Log LOG \u003d LogFactory.getLog(RTCClient.class);\n\nWhile:\n\n  com.googlesource.gerrit.plugins.its.rtc.RTCItsFacade.java\n  import org.slf4j.Logger;\n  import org.slf4j.LoggerFactory;\n  \n  private Logger log \u003d LoggerFactory.getLogger(RTCItsFacade.class);\n\nI assume we can switch to only using slf4j and drop the dependency on commons-logging entirely?",
+      "range": {
+        "startLine": 19,
+        "startChar": 4,
+        "endLine": 19,
+        "endChar": 43
+      },
+      "revId": "c66e493086956e1a07343b76a88cb6fddf7fdd62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
