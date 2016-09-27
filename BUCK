@@ -1,3 +1,5 @@
+include_defs('//bucklets/gerrit_plugin.bucklet')
+
 gerrit_plugin(
   name = 'its-rtc',
   srcs = glob(['src/main/java/**/*.java']),
@@ -58,10 +60,8 @@ java_test(
   name = 'its-rtc_tests',
   srcs = glob(['src/test/java/**/*.java']),
   labels = ['its-rtc'],
-  source_under_test = [':its-rtc__plugin'],
-  deps = [
+  deps = GERRIT_PLUGIN_API + GERRIT_TESTS + [
     ':its-rtc__plugin',
-    '//gerrit-plugin-api:lib',
     '//lib:junit',
     '//plugins/its-rtc/lib:mockito',
   ],
