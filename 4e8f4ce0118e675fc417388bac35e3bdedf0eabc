@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "924689f4_2c928b5b",
+        "filename": "BUILD",
+        "patchSetId": 7
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-02-14T20:48:58Z",
+      "side": 1,
+      "message": "This is not a dep in gerrit\u0027s core so we carn\u0027t do neverlink here.",
+      "range": {
+        "startLine": 23,
+        "startChar": 8,
+        "endLine": 23,
+        "endChar": 32
+      },
+      "revId": "4e8f4ce0118e675fc417388bac35e3bdedf0eabc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
