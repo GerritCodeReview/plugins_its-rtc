@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3af950d8_4bbfc5dd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-02-21T08:59:53Z",
+      "side": 1,
+      "message": "It\u0027s better to mention the sha1 directly, or better the abbreviated change-Id, so that it gets automatically linked in the UI.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 87
+      },
+      "revId": "2ecadcc78867688b6658c61dea46dc07822c213b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
