@@ -22,7 +22,7 @@ import org.apache.http.params.CoreProtocolPNames;
 import org.apache.http.params.HttpParams;
 import org.eclipse.jgit.lib.Config;
 
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
@@ -133,7 +133,7 @@ public class RTCHttpParams implements HttpParams {
   }
 
   private ParameterParser getParameterParser(String name) {
-    return Objects.firstNonNull(TYPES.get(name), TYPE_STRING);
+    return MoreObjects.firstNonNull(TYPES.get(name), TYPE_STRING);
   }
 
   @Override
