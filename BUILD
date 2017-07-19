@@ -21,7 +21,7 @@ gerrit_plugin(
     deps = [
         "//plugins/its-base",
         "@commons_logging//jar",
-        "@commons_io//jar:neverlink",
+        "@commons_io//jar",
         "@commons_codec//jar:neverlink",
     ],
 )
