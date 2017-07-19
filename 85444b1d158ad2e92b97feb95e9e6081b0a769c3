@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "608ea7be_9c2ec296",
+        "filename": "BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-07-19T06:04:56Z",
+      "side": 1,
+      "message": "commons-io is defined in gerrit core, but is not actually used there:\n\n  $ git grep commons-io\n  WORKSPACE:    artifact \u003d \"commons-io:commons-io:1.4\",\n  lib/BUILD:    name \u003d \"commons-io\",\n\nIt\u0027s only used to be included in replication plugin. But yes, a site cannot hope that replication plugin is used for rtc plugin to work.",
+      "revId": "85444b1d158ad2e92b97feb95e9e6081b0a769c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
