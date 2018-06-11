@@ -14,7 +14,6 @@
 package com.googlesource.gerrit.plugins.its.rtc.api;
 
 import com.google.gson.Gson;
-
 import com.googlesource.gerrit.plugins.its.rtc.network.Transport;
 
 public class RtcObject {

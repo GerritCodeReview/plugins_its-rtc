@@ -13,36 +13,34 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.its.rtc.workitems;
 
-import java.lang.reflect.Type;
-import java.net.MalformedURLException;
-import java.net.URL;
-
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
-
 import com.googlesource.gerrit.plugins.its.rtc.api.AbstractDeserializer;
+import java.lang.reflect.Type;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 public class RtcRelatedLinkDeserializer extends AbstractDeserializer
     implements JsonDeserializer<RtcRelatedLink> {
 
   @Override
-  public RtcRelatedLink deserialize(JsonElement json, Type typeOfT,
-      JsonDeserializationContext context) throws JsonParseException {
-    
+  public RtcRelatedLink deserialize(
+      JsonElement json, Type typeOfT, JsonDeserializationContext context)
+      throws JsonParseException {
+
     JsonObject jsonObj = json.getAsJsonObject();
     String resourceUrlString = jsonObj.get("rdf:resource").getAsString();
     try {
       URL resourceUrl = new URL(resourceUrlString);
       String label = jsonObj.get("oslc_cm:label").getAsString();
-      
+
       return new RtcRelatedLink(resourceUrl, label);
-      
+
     } catch (MalformedURLException e) {
       throw new JsonParseException("Invalid rdf:resource URL '" + resourceUrlString + "'", e);
     }
   }
-
 }

@@ -13,11 +13,9 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.its.rtc.workitems;
 
-import java.util.Calendar;
-
 import com.googlesource.gerrit.plugins.its.rtc.api.RtcEntity;
 import com.googlesource.gerrit.plugins.its.rtc.api.RtcObject;
-
+import java.util.Calendar;
 
 public class RtcWorkItem extends RtcObject {
 
@@ -32,8 +30,8 @@ public class RtcWorkItem extends RtcObject {
   RtcEntity severity;
   RtcEntity priority;
   RtcEntity type;
-//  private List<RtcComment> comments;    //
-  
+  //  private List<RtcComment> comments;    //
+
   RtcWorkItem(String rdf) {
     super(rdf);
   }

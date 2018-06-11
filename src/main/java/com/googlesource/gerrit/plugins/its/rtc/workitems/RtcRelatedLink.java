@@ -13,9 +13,8 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.its.rtc.workitems;
 
-import java.net.URL;
-
 import com.googlesource.gerrit.plugins.its.rtc.api.RtcObject;
+import java.net.URL;
 
 public class RtcRelatedLink extends RtcObject {
 
@@ -26,5 +25,4 @@ public class RtcRelatedLink extends RtcObject {
 
   public URL resource;
   public String label;
-
 }

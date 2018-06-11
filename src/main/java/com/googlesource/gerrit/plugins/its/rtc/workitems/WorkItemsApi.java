@@ -13,11 +13,10 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.its.rtc.workitems;
 
+import com.googlesource.gerrit.plugins.its.rtc.api.RtcEntity;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
-
-import com.googlesource.gerrit.plugins.its.rtc.api.RtcEntity;
 
 public interface WorkItemsApi {
 
@@ -25,13 +24,11 @@ public interface WorkItemsApi {
 
   public RtcComment addComment(long id, String text) throws IOException;
 
-  public RtcRelatedLink addRelated(long id, URL relatedUrl, String text)
-      throws IOException;
+  public RtcRelatedLink addRelated(long id, URL relatedUrl, String text) throws IOException;
 
   public List<RtcEntity> getAvailableStatuses(RtcWorkItem wip) throws IOException;
 
   public List<RtcWorkflowAction> getAvailableActions(RtcWorkItem wip) throws IOException;
 
   public RtcWorkItem performAction(RtcWorkItem wip, String newStatusTitle) throws IOException;
-
 }

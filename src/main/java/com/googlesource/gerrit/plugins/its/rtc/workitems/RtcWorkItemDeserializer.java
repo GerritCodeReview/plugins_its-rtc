@@ -13,20 +13,19 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.its.rtc.workitems;
 
-import java.io.IOException;
-import java.lang.reflect.Type;
-
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
-
 import com.googlesource.gerrit.plugins.its.rtc.api.AbstractDeserializer;
 import com.googlesource.gerrit.plugins.its.rtc.api.RtcEntity;
 import com.googlesource.gerrit.plugins.its.rtc.network.CachableResourcesFactory;
+import java.io.IOException;
+import java.lang.reflect.Type;
 
-public class RtcWorkItemDeserializer extends AbstractDeserializer implements JsonDeserializer<RtcWorkItem> {
+public class RtcWorkItemDeserializer extends AbstractDeserializer
+    implements JsonDeserializer<RtcWorkItem> {
 
   private CachableResourcesFactory factory;
 
@@ -35,34 +34,33 @@ public class RtcWorkItemDeserializer extends AbstractDeserializer implements Jso
   }
 
   @Override
-  public RtcWorkItem deserialize(JsonElement json, Type typeOfT,
-      JsonDeserializationContext context) throws JsonParseException {
-    
+  public RtcWorkItem deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
+      throws JsonParseException {
+
     JsonObject root = json.getAsJsonObject();
 
     RtcWorkItem result = new RtcWorkItem(extractRdf(root));
     result.id = extractLong(root, "dc:identifier");
-    result.title = extractString(root,"dc:title");
-    result.subject = extractString(root,"dc:subject");
+    result.title = extractString(root, "dc:title");
+    result.subject = extractString(root, "dc:subject");
     result.creator = extractIdenFromRdfResource(root, "dc:creator");
     result.ownedby = extractIdenFromRdfResource(root, "rtc_cm:ownedBy");
     result.status = extractResource(root, "rtc_cm:state", RtcEntity.class);
     result.severity = extractResource(root, "oslc_cm:severity", RtcEntity.class);
     result.priority = extractResource(root, "oslc_cm:priority", RtcEntity.class);
     result.type = extractResource(root, "dc:type", RtcEntity.class);
-    
-    
+
     return result;
   }
 
-  private RtcEntity extractResource(JsonObject root, final String memberName,
-      final Class<RtcEntity> clazz) {
+  private RtcEntity extractResource(
+      JsonObject root, final String memberName, final Class<RtcEntity> clazz) {
     String url = extractRdfResourceUrl(root, memberName);
     try {
       return factory.get(url, clazz);
     } catch (IOException e) {
-      throw new JsonParseException("Unable to parse resource from url "+url+" using class "+clazz, e);
+      throw new JsonParseException(
+          "Unable to parse resource from url " + url + " using class " + clazz, e);
     }
   }
-
 }

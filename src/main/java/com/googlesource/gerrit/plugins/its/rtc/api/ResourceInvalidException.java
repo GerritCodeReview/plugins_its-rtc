@@ -20,6 +20,6 @@ public class ResourceInvalidException extends IOException {
   private static final long serialVersionUID = -2905132705439138798L;
 
   public ResourceInvalidException(String name) {
-    super("Resource name "+name+" is not valid!");
+    super("Resource name " + name + " is not valid!");
   }
 }

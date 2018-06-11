@@ -14,7 +14,6 @@
 package com.googlesource.gerrit.plugins.its.rtc.network;
 
 import java.net.URI;
-
 import org.apache.http.client.methods.HttpPost;
 
 public class HttpPatch extends HttpPost {
@@ -31,8 +30,8 @@ public class HttpPatch extends HttpPost {
     super(uri);
   }
 
-  @Override 
-  public String getMethod() { 
-    return "PATCH"; 
+  @Override
+  public String getMethod() {
+    return "PATCH";
   }
 }

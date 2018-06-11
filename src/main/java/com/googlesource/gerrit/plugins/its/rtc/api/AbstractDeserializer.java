@@ -13,14 +13,12 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.its.rtc.api;
 
+import com.google.gson.JsonObject;
 import java.util.Calendar;
-
 import javax.xml.bind.DatatypeConverter;
 
-import com.google.gson.JsonObject;
-
 public class AbstractDeserializer {
-  
+
   protected final String extractRdfResourceUrl(JsonObject json, String memberName) {
     JsonObject rdf = json.getAsJsonObject(memberName);
     return rdf.get("rdf:resource").getAsString();
@@ -28,9 +26,8 @@ public class AbstractDeserializer {
 
   protected final Calendar extractDateTime(JsonObject root, final String memberName) {
     String txt = extractString(root, memberName);
-    return DatatypeConverter.parseDateTime(txt); 
+    return DatatypeConverter.parseDateTime(txt);
   }
-
 
   protected final String extractString(JsonObject root, final String memberName) {
     return root.get(memberName).getAsString();
@@ -43,14 +40,11 @@ public class AbstractDeserializer {
   protected final String extractIdenFromRdfResource(JsonObject root, final String memberName) {
     final String rdf = extractRdfResourceUrl(root, memberName);
     if (rdf != null) {
-      return rdf.substring(rdf.lastIndexOf('/')+1);
-    }
-    else 
-      return null;
+      return rdf.substring(rdf.lastIndexOf('/') + 1);
+    } else return null;
   }
 
   protected String extractRdf(JsonObject root) {
     return extractString(root, "rdf:resource");
   }
-
 }

@@ -18,14 +18,15 @@ import com.googlesource.gerrit.plugins.its.rtc.api.RtcEntity;
 public class RtcWorkflowAction extends RtcEntity {
 
   String resultStateRdf;
-  
+
   public RtcWorkflowAction(String id, String title) {
     super(id, title);
   }
+
   public RtcWorkflowAction(String rdf, String id, String title) {
     super(rdf, id, title);
   }
-  
+
   public String getResultStateRdf() {
     return resultStateRdf;
   }
