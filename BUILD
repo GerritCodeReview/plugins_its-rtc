@@ -28,9 +28,17 @@ gerrit_plugin(
 
 junit_tests(
     name = "its_rtc_tests",
+    testonly = 1,
     srcs = glob(["src/test/java/**/*.java"]),
     tags = ["its-rtc"],
-    deps = PLUGIN_DEPS + PLUGIN_TEST_DEPS + [
+    deps = ["its-rtc__plugin_test_deps"],
+)
+
+java_library(
+    name = "its-rtc__plugin_test_deps",
+    testonly = 1,
+    visibility = ["//visibility:public"],
+    exports = PLUGIN_DEPS + PLUGIN_TEST_DEPS + [
         ":its-rtc__plugin",
         "//plugins/its-base:its-base",
         "@mockito//jar",
