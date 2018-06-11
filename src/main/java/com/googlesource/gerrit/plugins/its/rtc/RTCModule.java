@@ -21,6 +21,8 @@ import com.google.inject.Inject;
 import com.google.inject.Scopes;
 import com.googlesource.gerrit.plugins.its.base.ItsHookModule;
 import com.googlesource.gerrit.plugins.its.base.its.ItsFacade;
+import com.googlesource.gerrit.plugins.its.base.its.ItsFacadeFactory;
+import com.googlesource.gerrit.plugins.its.base.its.SingleItsServer;
 import java.util.Set;
 import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
@@ -49,6 +51,7 @@ public class RTCModule extends AbstractModule {
     if (isConfigPresent(pluginName)) {
       LOG.info("RTC is configured as ITS");
       bind(ItsFacade.class).to(RTCItsFacade.class).in(Scopes.SINGLETON);
+      bind(ItsFacadeFactory.class).to(SingleItsServer.class);
 
       install(new ItsHookModule(pluginName, pluginCfgFactory));
     }
