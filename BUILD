@@ -9,7 +9,6 @@ load(
 gerrit_plugin(
     name = "its-rtc",
     srcs = glob(["src/main/java/**/*.java"]),
-    resources = glob(["src/main/resources/**/*"]),
     manifest_entries = [
         "Gerrit-PluginName: its-rtc",
         "Gerrit-Module: com.googlesource.gerrit.plugins.its.rtc.RTCModule",
@@ -18,11 +17,12 @@ gerrit_plugin(
         "Implementation-Title: Plugin its-rtc",
         "Implementation-URL: http://www.gerritforge.com",
     ],
+    resources = glob(["src/main/resources/**/*"]),
     deps = [
         "//plugins/its-base",
-        "@commons_logging//jar",
-        "@commons_io//jar",
         "@commons_codec//jar:neverlink",
+        "@commons_io//jar",
+        "@commons_logging//jar",
     ],
 )
 
