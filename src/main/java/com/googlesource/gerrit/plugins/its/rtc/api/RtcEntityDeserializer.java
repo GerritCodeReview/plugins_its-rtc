@@ -13,28 +13,26 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.its.rtc.api;
 
-import java.lang.reflect.Type;
-
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
+import java.lang.reflect.Type;
 
-import com.googlesource.gerrit.plugins.its.rtc.api.AbstractDeserializer;
-
-public class RtcEntityDeserializer extends AbstractDeserializer implements JsonDeserializer<RtcEntity> {
+public class RtcEntityDeserializer extends AbstractDeserializer
+    implements JsonDeserializer<RtcEntity> {
 
   @Override
-  public RtcEntity deserialize(JsonElement json, Type typeOfT,
-      JsonDeserializationContext context) throws JsonParseException {
-    
+  public RtcEntity deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
+      throws JsonParseException {
+
     JsonObject root = json.getAsJsonObject();
 
     RtcEntity result = new RtcEntity(extractRdf(root));
     result.id = extractString(root, "dc:identifier");
     result.title = extractString(root, "dc:title");
-    
+
     return result;
   }
 }

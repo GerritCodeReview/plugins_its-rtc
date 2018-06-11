@@ -20,5 +20,4 @@ public interface SessionApi {
   void login(String username, String password) throws IOException;
 
   void ping() throws IOException;
-
 }

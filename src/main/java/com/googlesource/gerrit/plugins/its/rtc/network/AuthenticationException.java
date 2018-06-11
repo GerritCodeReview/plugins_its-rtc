@@ -17,7 +17,7 @@ import java.io.IOException;
 
 public class AuthenticationException extends IOException {
   private static final long serialVersionUID = -4713503914827418174L;
-  
+
   public AuthenticationException(String reason) {
     super(reason);
   }

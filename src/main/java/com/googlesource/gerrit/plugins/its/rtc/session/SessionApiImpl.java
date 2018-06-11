@@ -13,14 +13,12 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.its.rtc.session;
 
-import java.io.IOException;
-
-import org.apache.http.message.BasicNameValuePair;
-
 import com.googlesource.gerrit.plugins.its.rtc.network.AuthenticationException;
 import com.googlesource.gerrit.plugins.its.rtc.network.RTCClient;
 import com.googlesource.gerrit.plugins.its.rtc.network.Transport;
 import com.googlesource.gerrit.plugins.its.rtc.workitems.AbstractApiImpl;
+import java.io.IOException;
+import org.apache.http.message.BasicNameValuePair;
 
 public class SessionApiImpl extends AbstractApiImpl implements SessionApi {
 
@@ -28,18 +26,20 @@ public class SessionApiImpl extends AbstractApiImpl implements SessionApi {
 
   public SessionApiImpl(RTCClient rtcClient, Transport transport) {
     super(rtcClient);
-    this.transport=transport;
+    this.transport = transport;
   }
 
   @Override
-  public synchronized void login(String username, String password)
-      throws IOException {
-    String result = transport.post("/authenticated/j_security_check", String.class,
-        Transport.ANY,
-        new BasicNameValuePair("j_username", username), 
-        new BasicNameValuePair("j_password", password));
-    
-    if(result.indexOf("net.jazz.web.app.authfailed") > 0) {
+  public synchronized void login(String username, String password) throws IOException {
+    String result =
+        transport.post(
+            "/authenticated/j_security_check",
+            String.class,
+            Transport.ANY,
+            new BasicNameValuePair("j_username", username),
+            new BasicNameValuePair("j_password", password));
+
+    if (result.indexOf("net.jazz.web.app.authfailed") > 0) {
       throw new AuthenticationException("User authentication failed");
     }
   }

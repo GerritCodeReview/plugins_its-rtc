@@ -13,16 +13,15 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.its.rtc.workitems;
 
-import java.util.Calendar;
-
 import com.googlesource.gerrit.plugins.its.rtc.api.RtcObject;
+import java.util.Calendar;
 
 public class RtcComment extends RtcObject {
 
   String creator;
   String contents;
   Calendar created;
-  
+
   RtcComment(String rdf) {
     super(rdf);
   }

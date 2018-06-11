@@ -13,14 +13,31 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.its.rtc.network;
 
+import com.google.gerrit.extensions.annotations.PluginName;
+import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.inject.Inject;
+import com.googlesource.gerrit.plugins.its.rtc.api.RtcEntity;
+import com.googlesource.gerrit.plugins.its.rtc.api.RtcEntityDeserializer;
+import com.googlesource.gerrit.plugins.its.rtc.session.SessionApi;
+import com.googlesource.gerrit.plugins.its.rtc.session.SessionApiImpl;
+import com.googlesource.gerrit.plugins.its.rtc.workitems.RtcComment;
+import com.googlesource.gerrit.plugins.its.rtc.workitems.RtcCommentDeserializer;
+import com.googlesource.gerrit.plugins.its.rtc.workitems.RtcRelatedLink;
+import com.googlesource.gerrit.plugins.its.rtc.workitems.RtcRelatedLinkDeserializer;
+import com.googlesource.gerrit.plugins.its.rtc.workitems.RtcWorkItem;
+import com.googlesource.gerrit.plugins.its.rtc.workitems.RtcWorkItemDeserializer;
+import com.googlesource.gerrit.plugins.its.rtc.workitems.RtcWorkflowAction;
+import com.googlesource.gerrit.plugins.its.rtc.workitems.RtcWorkflowActionDeserializer;
+import com.googlesource.gerrit.plugins.its.rtc.workitems.WorkItemsApi;
+import com.googlesource.gerrit.plugins.its.rtc.workitems.WorkItemsApiImpl;
 import java.io.IOException;
 import java.security.SecureRandom;
 import java.security.cert.X509Certificate;
-
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.http.HttpResponse;
@@ -37,27 +54,6 @@ import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.HttpContext;
 import org.eclipse.jgit.lib.Config;
-
-import com.google.gerrit.extensions.annotations.PluginName;
-import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.inject.Inject;
-
-import com.googlesource.gerrit.plugins.its.rtc.api.RtcEntity;
-import com.googlesource.gerrit.plugins.its.rtc.api.RtcEntityDeserializer;
-import com.googlesource.gerrit.plugins.its.rtc.session.SessionApi;
-import com.googlesource.gerrit.plugins.its.rtc.session.SessionApiImpl;
-import com.googlesource.gerrit.plugins.its.rtc.workitems.RtcComment;
-import com.googlesource.gerrit.plugins.its.rtc.workitems.RtcCommentDeserializer;
-import com.googlesource.gerrit.plugins.its.rtc.workitems.RtcRelatedLink;
-import com.googlesource.gerrit.plugins.its.rtc.workitems.RtcRelatedLinkDeserializer;
-import com.googlesource.gerrit.plugins.its.rtc.workitems.RtcWorkItem;
-import com.googlesource.gerrit.plugins.its.rtc.workitems.RtcWorkItemDeserializer;
-import com.googlesource.gerrit.plugins.its.rtc.workitems.RtcWorkflowAction;
-import com.googlesource.gerrit.plugins.its.rtc.workitems.RtcWorkflowActionDeserializer;
-import com.googlesource.gerrit.plugins.its.rtc.workitems.WorkItemsApi;
-import com.googlesource.gerrit.plugins.its.rtc.workitems.WorkItemsApiImpl;
 
 public class RTCClient {
 
@@ -81,16 +77,16 @@ public class RTCClient {
   private String rtcPassword;
 
   @Inject
-  public RTCClient(@PluginName String pluginName,
-      @GerritServerConfig Config config, RTCHttpParams httpParams)
+  public RTCClient(
+      @PluginName String pluginName, @GerritServerConfig Config config, RTCHttpParams httpParams)
       throws IOException {
-    this(config.getString(pluginName, null, "url"), config
-        .getBoolean(pluginName, null, "sslVerify", true),
+    this(
+        config.getString(pluginName, null, "url"),
+        config.getBoolean(pluginName, null, "sslVerify", true),
         httpParams);
   }
 
-  public RTCClient(String url, boolean sslVerify, HttpParams httpParams)
-      throws IOException {
+  public RTCClient(String url, boolean sslVerify, HttpParams httpParams) throws IOException {
     super();
 
     this.baseUrl = (url.endsWith("/") ? url.substring(url.length() - 1) : url);
@@ -98,24 +94,20 @@ public class RTCClient {
       httpParams = new BasicHttpParams();
     }
     SchemeRegistry schemeRegistry = new SchemeRegistry();
-    schemeRegistry.register(new Scheme("http", PlainSocketFactory
-        .getSocketFactory(), 80));
+    schemeRegistry.register(new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
     this.httpclient =
-        new DefaultHttpClient(new ThreadSafeClientConnManager(httpParams,
-            schemeRegistry), httpParams);
+        new DefaultHttpClient(
+            new ThreadSafeClientConnManager(httpParams, schemeRegistry), httpParams);
 
     this.transport = new Transport(this, baseUrl, httpclient, httpParams);
     this.factory = new CachableResourcesFactory(transport);
 
     GsonBuilder builder = new GsonBuilder();
-    builder.registerTypeAdapter(RtcWorkItem.class, new RtcWorkItemDeserializer(
-        factory));
+    builder.registerTypeAdapter(RtcWorkItem.class, new RtcWorkItemDeserializer(factory));
     builder.registerTypeAdapter(RtcComment.class, new RtcCommentDeserializer());
     builder.registerTypeAdapter(RtcEntity.class, new RtcEntityDeserializer());
-    builder.registerTypeAdapter(RtcRelatedLink.class,
-        new RtcRelatedLinkDeserializer());
-    builder.registerTypeAdapter(RtcWorkflowAction.class,
-        new RtcWorkflowActionDeserializer());
+    builder.registerTypeAdapter(RtcRelatedLink.class, new RtcRelatedLinkDeserializer());
+    builder.registerTypeAdapter(RtcWorkflowAction.class, new RtcWorkflowActionDeserializer());
     gson = builder.create();
     transport.setGson(gson);
 
@@ -157,22 +149,20 @@ public class RTCClient {
   private void setSSLTrustStrategy(boolean sslVerify) throws IOException {
     try {
       TrustManager[] trustAllCerts =
-          new TrustManager[] {new X509TrustManager() {
-            @Override
-            public X509Certificate[] getAcceptedIssuers() {
-              return new X509Certificate[0];
-            }
+          new TrustManager[] {
+            new X509TrustManager() {
+              @Override
+              public X509Certificate[] getAcceptedIssuers() {
+                return new X509Certificate[0];
+              }
 
-            @Override
-            public void checkClientTrusted(X509Certificate[] certs,
-                String authType) {
-            }
+              @Override
+              public void checkClientTrusted(X509Certificate[] certs, String authType) {}
 
-            @Override
-            public void checkServerTrusted(X509Certificate[] certs,
-                String authType) {
+              @Override
+              public void checkServerTrusted(X509Certificate[] certs, String authType) {}
             }
-          }};
+          };
       SSLContext sc;
 
       if (sslVerify) {
@@ -184,8 +174,7 @@ public class RTCClient {
 
       SSLSocketFactory sf = new SSLSocketFactory(sc);
       sf.setHostnameVerifier(new AllowAllHostnameVerifier());
-      SchemeRegistry schemeRegistry =
-          httpclient.getConnectionManager().getSchemeRegistry();
+      SchemeRegistry schemeRegistry = httpclient.getConnectionManager().getSchemeRegistry();
       schemeRegistry.register(new Scheme("https", sf, 443));
     } catch (Exception any) {
       throw new IOException(any);
@@ -193,20 +182,20 @@ public class RTCClient {
   }
 
   private void setRedirectStategy() {
-    httpclient.setRedirectHandler(new DefaultRedirectHandler() {
-      @Override
-      public boolean isRedirectRequested(HttpResponse response,
-          HttpContext context) {
-        boolean isRedirect = super.isRedirectRequested(response, context);
-        if (!isRedirect) {
-          int responseCode = response.getStatusLine().getStatusCode();
-          if (responseCode == 301 || responseCode == 302) {
-            return true;
+    httpclient.setRedirectHandler(
+        new DefaultRedirectHandler() {
+          @Override
+          public boolean isRedirectRequested(HttpResponse response, HttpContext context) {
+            boolean isRedirect = super.isRedirectRequested(response, context);
+            if (!isRedirect) {
+              int responseCode = response.getStatusLine().getStatusCode();
+              if (responseCode == 301 || responseCode == 302) {
+                return true;
+              }
+            }
+            return isRedirect;
           }
-        }
-        return isRedirect;
-      }
-    });
+        });
   }
 
   public Transport getTransportForTest() {

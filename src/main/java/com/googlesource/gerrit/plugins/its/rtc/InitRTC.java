@@ -16,20 +16,17 @@ package com.googlesource.gerrit.plugins.its.rtc;
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.pgm.init.api.AllProjectsConfig;
 import com.google.gerrit.pgm.init.api.AllProjectsNameOnInitProvider;
+import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.pgm.init.api.InitFlags;
 import com.google.gerrit.pgm.init.api.Section;
-import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import com.googlesource.gerrit.plugins.its.base.its.InitIts;
 import com.googlesource.gerrit.plugins.its.base.validation.ItsAssociationPolicy;
 import com.googlesource.gerrit.plugins.its.rtc.network.RTCClient;
-
-import org.eclipse.jgit.errors.ConfigInvalidException;
-
 import java.io.IOException;
 import java.util.Arrays;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 
 /** Initialize the GitRepositoryManager configuration section. */
 @Singleton
@@ -44,11 +41,14 @@ class InitRTC extends InitIts {
   private String rtcPassword;
 
   @Inject
-  InitRTC(@PluginName String pluginName, ConsoleUI ui,
-      Section.Factory sections, AllProjectsConfig allProjectsConfig,
-      AllProjectsNameOnInitProvider allProjects, InitFlags flags) {
-    super(pluginName, "IBM Rational Team Concert", ui,
-        allProjectsConfig, allProjects);
+  InitRTC(
+      @PluginName String pluginName,
+      ConsoleUI ui,
+      Section.Factory sections,
+      AllProjectsConfig allProjectsConfig,
+      AllProjectsNameOnInitProvider allProjects,
+      InitFlags flags) {
+    super(pluginName, "IBM Rational Team Concert", ui, allProjectsConfig, allProjects);
     this.pluginName = pluginName;
     this.sections = sections;
     this.flags = flags;
@@ -67,11 +67,14 @@ class InitRTC extends InitIts {
       ui.message("A RTC configuration for the 'hooks-rtc' plugin was found.\n");
       if (ui.yesno(true, "Copy it for the '%s' plugin?", pluginName)) {
         for (String n : flags.cfg.getNames("rtc")) {
-          flags.cfg.setStringList(pluginName, null, n,
-              Arrays.asList(flags.cfg.getStringList("rtc", null, n)));
+          flags.cfg.setStringList(
+              pluginName, null, n, Arrays.asList(flags.cfg.getStringList("rtc", null, n)));
         }
         for (String n : flags.cfg.getNames(COMMENT_LINK_SECTION, "rtc")) {
-          flags.cfg.setStringList(COMMENT_LINK_SECTION, pluginName, n,
+          flags.cfg.setStringList(
+              COMMENT_LINK_SECTION,
+              pluginName,
+              n,
               Arrays.asList(flags.cfg.getStringList(COMMENT_LINK_SECTION, "rtc", n)));
         }
 
@@ -89,13 +92,12 @@ class InitRTC extends InitIts {
 
   private void init() {
     this.rtc = sections.get(pluginName, null);
-    this.rtcComment =
-        sections.get(COMMENT_LINK_SECTION, pluginName);
+    this.rtcComment = sections.get(COMMENT_LINK_SECTION, pluginName);
 
     boolean sslVerify = true;
     do {
       rtcUrl = enterRTCConnectivity();
-      if(rtcUrl != null) {
+      if (rtcUrl != null) {
         sslVerify = enterSSLVerify(rtc);
       }
     } while (rtcUrl != null
@@ -108,11 +110,10 @@ class InitRTC extends InitIts {
     ui.header("Rational Team Concert issue-tracking association");
     rtcComment.string("RTC Issue-Id regex", "match", "RTC#([0-9]+)");
     String workItemLink = "resource/itemName/com.ibm.team.workitem.WorkItem/$1";
-    rtcComment.set("html",
-        String.format("<a href=\"%s/%s\">$1</a>", rtcUrl, workItemLink));
+    rtcComment.set("html", String.format("<a href=\"%s/%s\">$1</a>", rtcUrl, workItemLink));
 
-    rtcComment.select("RTC Issue-Id enforced in commit message", "association",
-        ItsAssociationPolicy.OPTIONAL);
+    rtcComment.select(
+        "RTC Issue-Id enforced in commit message", "association", ItsAssociationPolicy.OPTIONAL);
   }
 
   public String enterRTCConnectivity() {

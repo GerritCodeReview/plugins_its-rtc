@@ -13,6 +13,9 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.its.rtc.network;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.googlesource.gerrit.plugins.its.rtc.api.ResourceNotFoundException;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,7 +26,6 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
-
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -42,17 +44,11 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.HttpParams;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-
-import com.googlesource.gerrit.plugins.its.rtc.api.ResourceNotFoundException;
-
 public class Transport {
 
   public static final String APP_JSON = "application/json";
   public static final String ANY = "*/*";
-  public static final String APP_OSLC =
-      "application/x-oslc-cm-change-request+json";
+  public static final String APP_OSLC = "application/x-oslc-cm-change-request+json";
 
   private static final Log log = LogFactory.getLog(Transport.class);
 
@@ -64,7 +60,8 @@ public class Transport {
   private HttpParams httpParams;
   private RTCClient rtcClient;
 
-  public Transport(RTCClient rtcClient, String baseUrl, DefaultHttpClient httpclient, HttpParams httpParams) {
+  public Transport(
+      RTCClient rtcClient, String baseUrl, DefaultHttpClient httpclient, HttpParams httpParams) {
     this.rtcClient = rtcClient;
     this.baseUrl = baseUrl;
     this.httpclient = httpclient;
@@ -75,35 +72,45 @@ public class Transport {
     this.gson = gson;
   }
 
-  public <T> T put(final String path, final Type typeOrClass, JsonObject data,
-      String etag) throws IOException {
+  public <T> T put(final String path, final Type typeOrClass, JsonObject data, String etag)
+      throws IOException {
     HttpPut request = new HttpPut(toUri(path));
     if (log.isDebugEnabled())
-      log.debug("Preparing PUT against " + request.getURI() + " using etag "
-          + etag + " and data " + data);
+      log.debug(
+          "Preparing PUT against "
+              + request.getURI()
+              + " using etag "
+              + etag
+              + " and data "
+              + data);
     request.setEntity(new StringEntity(data.toString(), StandardCharsets.UTF_8));
     if (etag != null) request.addHeader("If-Match", etag);
     return invoke(request, typeOrClass, APP_OSLC, APP_OSLC);
   }
 
-  public <T> T patch(final String path, final Type typeOrClass,
-      JsonObject data, String etag) throws IOException {
+  public <T> T patch(final String path, final Type typeOrClass, JsonObject data, String etag)
+      throws IOException {
     HttpPatch request = newHttpPatch(path);
     if (log.isDebugEnabled())
-      log.debug("Preparing PATCH against " + request.getURI() + " using etag "
-          + etag + " and data " + data);
+      log.debug(
+          "Preparing PATCH against "
+              + request.getURI()
+              + " using etag "
+              + etag
+              + " and data "
+              + data);
     request.setEntity(new StringEntity(data.toString(), StandardCharsets.UTF_8));
     if (etag != null) request.addHeader("If-Match", etag);
     return invoke(request, typeOrClass, APP_OSLC, APP_OSLC);
   }
 
-  public <T> T post(final String path, final Type typeOrClass,
-      String contentType,
-      final NameValuePair... params) throws IOException {
+  public <T> T post(
+      final String path, final Type typeOrClass, String contentType, final NameValuePair... params)
+      throws IOException {
     HttpPost request = newHttpPost(path);
     if (log.isDebugEnabled())
-      log.debug("Preparing POST against " + request.getURI() + " using params "
-          + Arrays.asList(params));
+      log.debug(
+          "Preparing POST against " + request.getURI() + " using params " + Arrays.asList(params));
     List<NameValuePair> nameValuePairs = Arrays.asList(params);
     request.setEntity(new UrlEncodedFormEntity(nameValuePairs, StandardCharsets.UTF_8));
     return invoke(request, typeOrClass, contentType, null);
@@ -112,22 +119,19 @@ public class Transport {
   public <T> T get(final String path, final Type typeOrClass)
       throws IOException, MalformedURLException {
     final HttpGet request = newHttpGet(path);
-    if (log.isDebugEnabled())
-      log.debug("Preparing GET against " + request.getURI());
+    if (log.isDebugEnabled()) log.debug("Preparing GET against " + request.getURI());
     return invoke(request, typeOrClass, APP_JSON, null);
   }
 
-  public String get(final String path) throws IOException,
-      MalformedURLException {
+  public String get(final String path) throws IOException, MalformedURLException {
     final HttpGet request = newHttpGet(path);
-    if (log.isDebugEnabled())
-      log.debug("Preparing GET against " + request.getURI());
+    if (log.isDebugEnabled()) log.debug("Preparing GET against " + request.getURI());
     return invoke(request, null, ANY, null);
   }
 
   @SuppressWarnings("unchecked")
-  private synchronized <T> T invoke(HttpRequestBase request,
-      Object typeOrClass, String acceptType, String contentType)
+  private synchronized <T> T invoke(
+      HttpRequestBase request, Object typeOrClass, String acceptType, String contentType)
       throws IOException, ClientProtocolException, ResourceNotFoundException {
 
     if (contentType != null) {
@@ -155,16 +159,22 @@ public class Transport {
       String entityString = readEntityAsString(response);
 
       if (!assertValidContentType(acceptType, responseContentTypeString)) {
-        log.error("Request to " + request.getURI()
-            + " failed because of an invalid content returned:\n"
-            + entityString);
+        log.error(
+            "Request to "
+                + request.getURI()
+                + " failed because of an invalid content returned:\n"
+                + entityString);
         rtcClient.setLoggedIn(false);
-        throw new InvalidContentTypeException("Wrong content type '"
-            + responseContentTypeString + "' in HTTP response (Expected: "
-            + acceptType + ")");
+        throw new InvalidContentTypeException(
+            "Wrong content type '"
+                + responseContentTypeString
+                + "' in HTTP response (Expected: "
+                + acceptType
+                + ")");
       }
 
-      if (typeOrClass != null && acceptType.endsWith("json")
+      if (typeOrClass != null
+          && acceptType.endsWith("json")
           && responseContentTypeString.endsWith("json")) {
         Transport.etag.set(extractEtag(response));
         if (typeOrClass instanceof ParameterizedType) {
@@ -184,16 +194,14 @@ public class Transport {
     }
   }
 
-  private boolean assertValidContentType(String acceptType,
-      String responseContentTypeString) {
+  private boolean assertValidContentType(String acceptType, String responseContentTypeString) {
     if (acceptType == null) {
       return true;
     }
     if (acceptType.endsWith("/*")) {
       return true;
     }
-    if (acceptType.split("/")[1].equalsIgnoreCase(responseContentTypeString
-        .split("/")[1])) {
+    if (acceptType.split("/")[1].equalsIgnoreCase(responseContentTypeString.split("/")[1])) {
       return true;
     }
     return false;
@@ -255,8 +263,9 @@ public class Transport {
 
   private String extractEtag(HttpResponse response) {
     final Header etagHeader = response.getFirstHeader("ETag");
-    return etagHeader == null ? null : etagHeader.getValue().substring(1,
-        etagHeader.getValue().length() - 1);
+    return etagHeader == null
+        ? null
+        : etagHeader.getValue().substring(1, etagHeader.getValue().length() - 1);
   }
 
   private HttpGet newHttpGet(final String path) {
@@ -274,9 +283,7 @@ public class Transport {
   }
 
   private String toUri(final String path) {
-    if (path.startsWith(baseUrl))
-      return path;
-    else
-      return baseUrl + path;
+    if (path.startsWith(baseUrl)) return path;
+    else return baseUrl + path;
   }
 }

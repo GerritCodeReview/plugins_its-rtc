@@ -21,6 +21,6 @@ public class ResourceModifiedException extends IOException {
   private static final long serialVersionUID = -2905132705439138798L;
 
   public ResourceModifiedException(URI uri) {
-    super("Resource modified at "+uri.toString()+ " - etag is not matching");
+    super("Resource modified at " + uri.toString() + " - etag is not matching");
   }
 }

@@ -13,22 +13,22 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.its.rtc.workitems;
 
-import java.lang.reflect.Type;
-
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
-
 import com.googlesource.gerrit.plugins.its.rtc.api.AbstractDeserializer;
+import java.lang.reflect.Type;
 
-public class RtcWorkflowActionDeserializer extends AbstractDeserializer implements JsonDeserializer<RtcWorkflowAction> {
+public class RtcWorkflowActionDeserializer extends AbstractDeserializer
+    implements JsonDeserializer<RtcWorkflowAction> {
 
   @Override
-  public RtcWorkflowAction deserialize(JsonElement json, Type typeOfT,
-      JsonDeserializationContext context) throws JsonParseException {
-    
+  public RtcWorkflowAction deserialize(
+      JsonElement json, Type typeOfT, JsonDeserializationContext context)
+      throws JsonParseException {
+
     JsonObject root = json.getAsJsonObject();
 
     final String rdf = extractRdf(root);
@@ -36,7 +36,7 @@ public class RtcWorkflowActionDeserializer extends AbstractDeserializer implemen
     final String title = extractString(root, "dc:title");
     RtcWorkflowAction result = new RtcWorkflowAction(rdf, id, title);
     result.resultStateRdf = extractRdf(root.get("rtc_cm:resultState").getAsJsonObject());
-    
+
     return result;
   }
 }

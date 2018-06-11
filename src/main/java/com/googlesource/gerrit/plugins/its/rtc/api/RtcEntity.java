@@ -13,7 +13,6 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.its.rtc.api;
 
-
 public class RtcEntity extends RtcObject {
 
   String id;
@@ -22,7 +21,7 @@ public class RtcEntity extends RtcObject {
   protected RtcEntity(String rdf) {
     super(rdf);
   }
-  
+
   public RtcEntity(String id, String title) {
     this(null, id, title);
   }

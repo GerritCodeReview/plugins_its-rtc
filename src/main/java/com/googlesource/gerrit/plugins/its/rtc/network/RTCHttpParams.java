@@ -13,8 +13,11 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.its.rtc.network;
 
+import com.google.common.base.MoreObjects;
+import com.google.gerrit.extensions.annotations.PluginName;
+import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.inject.Inject;
 import java.util.HashMap;
-
 import org.apache.http.client.params.ClientPNames;
 import org.apache.http.conn.params.ConnManagerPNames;
 import org.apache.http.params.CoreConnectionPNames;
@@ -22,61 +25,59 @@ import org.apache.http.params.CoreProtocolPNames;
 import org.apache.http.params.HttpParams;
 import org.eclipse.jgit.lib.Config;
 
-import com.google.common.base.MoreObjects;
-import com.google.gerrit.extensions.annotations.PluginName;
-import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.inject.Inject;
-
 @SuppressWarnings("deprecation")
 public class RTCHttpParams implements HttpParams {
   private static interface ParameterParser {
     public Object parse(String value);
   }
 
-  private static final ParameterParser TYPE_STRING = new ParameterParser() {
-    @Override
-    public Object parse(String value) {
-      return value;
-    }
-  };
+  private static final ParameterParser TYPE_STRING =
+      new ParameterParser() {
+        @Override
+        public Object parse(String value) {
+          return value;
+        }
+      };
 
-  private static final ParameterParser TYPE_LONG = new ParameterParser() {
-    @Override
-    public Object parse(String value) {
-      if (value == null) {
-        return null;
-      } else {
-        return Long.parseLong(value);
-      }
-    }
-  };
+  private static final ParameterParser TYPE_LONG =
+      new ParameterParser() {
+        @Override
+        public Object parse(String value) {
+          if (value == null) {
+            return null;
+          } else {
+            return Long.parseLong(value);
+          }
+        }
+      };
 
-  private static final ParameterParser TYPE_INT = new ParameterParser() {
-    @Override
-    public Object parse(String value) {
-      if (value == null) {
-        return null;
-      } else {
-        return Integer.parseInt(value);
-      }
-    }
-  };
+  private static final ParameterParser TYPE_INT =
+      new ParameterParser() {
+        @Override
+        public Object parse(String value) {
+          if (value == null) {
+            return null;
+          } else {
+            return Integer.parseInt(value);
+          }
+        }
+      };
 
-  private static final ParameterParser TYPE_BOOL = new ParameterParser() {
-    @Override
-    public Object parse(String value) {
-      if (value == null) {
-        return null;
-      } else {
-        return Boolean.parseBoolean(value);
-      }
-    }
-  };
+  private static final ParameterParser TYPE_BOOL =
+      new ParameterParser() {
+        @Override
+        public Object parse(String value) {
+          if (value == null) {
+            return null;
+          } else {
+            return Boolean.parseBoolean(value);
+          }
+        }
+      };
 
-  private static final HashMap<String, ParameterParser> TYPES =
-      new HashMap<>();
+  private static final HashMap<String, ParameterParser> TYPES = new HashMap<>();
+
   static {
-
     TYPES.put(CoreConnectionPNames.SO_TIMEOUT, TYPE_INT);
     TYPES.put(CoreConnectionPNames.TCP_NODELAY, TYPE_BOOL);
     TYPES.put(CoreConnectionPNames.SOCKET_BUFFER_SIZE, TYPE_INT);
@@ -103,6 +104,7 @@ public class RTCHttpParams implements HttpParams {
     TYPES.put(ConnManagerPNames.TIMEOUT, TYPE_LONG);
     TYPES.put(ConnManagerPNames.MAX_TOTAL_CONNECTIONS, TYPE_INT);
   }
+
   private final String pluginName;
   private Config config;
 
@@ -127,8 +129,7 @@ public class RTCHttpParams implements HttpParams {
 
   @Override
   public Object getParameter(String name) {
-    String value =
-        config.getString(pluginName, null, getParamName(name));
+    String value = config.getString(pluginName, null, getParamName(name));
     return getParameterParser(name).parse(value);
   }
 
@@ -158,8 +159,7 @@ public class RTCHttpParams implements HttpParams {
 
   @Override
   public long getLongParameter(String name, long defaultValue) {
-    return config.getLong(pluginName, null, getParamName(name),
-        defaultValue);
+    return config.getLong(pluginName, null, getParamName(name), defaultValue);
   }
 
   @Override
@@ -169,8 +169,7 @@ public class RTCHttpParams implements HttpParams {
 
   @Override
   public int getIntParameter(String name, int defaultValue) {
-    return config.getInt(pluginName, null, getParamName(name),
-        defaultValue);
+    return config.getInt(pluginName, null, getParamName(name), defaultValue);
   }
 
   @Override
@@ -190,8 +189,7 @@ public class RTCHttpParams implements HttpParams {
 
   @Override
   public boolean getBooleanParameter(String name, boolean defaultValue) {
-    return config.getBoolean(pluginName, null,
-        getParamName(name), defaultValue);
+    return config.getBoolean(pluginName, null, getParamName(name), defaultValue);
   }
 
   @Override

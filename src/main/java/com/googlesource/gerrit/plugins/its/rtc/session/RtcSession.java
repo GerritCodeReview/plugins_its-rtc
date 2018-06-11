@@ -13,17 +13,15 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.its.rtc.session;
 
+import com.googlesource.gerrit.plugins.its.rtc.api.RtcObject;
 import java.util.Arrays;
 import java.util.List;
-
-import com.googlesource.gerrit.plugins.its.rtc.api.RtcObject;
-
 
 public class RtcSession extends RtcObject {
 
   private String userId;
   private String[] roles;
-  
+
   private RtcSession() {
     super();
   }

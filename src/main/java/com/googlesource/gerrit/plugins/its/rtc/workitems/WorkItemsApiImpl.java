@@ -13,25 +13,23 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.its.rtc.workitems;
 
+import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
+import com.googlesource.gerrit.plugins.its.rtc.api.ResourceInvalidException;
+import com.googlesource.gerrit.plugins.its.rtc.api.RtcEntity;
+import com.googlesource.gerrit.plugins.its.rtc.network.RTCClient;
+import com.googlesource.gerrit.plugins.its.rtc.network.Transport;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.net.URL;
 import java.util.Collection;
 import java.util.List;
-
 import org.apache.http.message.BasicNameValuePair;
-
-import com.google.gson.JsonObject;
-import com.google.gson.reflect.TypeToken;
-
-import com.googlesource.gerrit.plugins.its.rtc.api.ResourceInvalidException;
-import com.googlesource.gerrit.plugins.its.rtc.api.RtcEntity;
-import com.googlesource.gerrit.plugins.its.rtc.network.RTCClient;
-import com.googlesource.gerrit.plugins.its.rtc.network.Transport;
 
 public class WorkItemsApiImpl extends AbstractApiImpl implements WorkItemsApi {
 
   private Transport transport;
+
   public WorkItemsApiImpl(RTCClient rtcClient, Transport transport) {
     super(rtcClient);
     this.transport = transport;
@@ -44,34 +42,31 @@ public class WorkItemsApiImpl extends AbstractApiImpl implements WorkItemsApi {
   }
 
   @Override
-  public synchronized RtcComment addComment(long id, String text)
-      throws IOException {
+  public synchronized RtcComment addComment(long id, String text) throws IOException {
     loginIfNeeded();
-    return transport.post("/oslc/workitems/" + id + "/rtc_cm:comments",
-        RtcComment.class, 
+    return transport.post(
+        "/oslc/workitems/" + id + "/rtc_cm:comments",
+        RtcComment.class,
         Transport.APP_JSON,
         new BasicNameValuePair("dc:description", text));
   }
 
   @Override
-  public synchronized RtcRelatedLink addRelated(long id, URL relatedUrl,
-      String text) throws IOException {
+  public synchronized RtcRelatedLink addRelated(long id, URL relatedUrl, String text)
+      throws IOException {
     loginIfNeeded();
-    return transport
-        .post(
-            "/oslc/workitems/"
-                + id
-                + "/rtc_cm:com.ibm.team.workitem.linktype.relatedartifact.relatedArtifact",
-            RtcRelatedLink.class, 
-            Transport.APP_JSON,
-            new BasicNameValuePair("rdf:resource",
-                relatedUrl.toExternalForm()), new BasicNameValuePair(
-                "oslc_cm:label", text));
+    return transport.post(
+        "/oslc/workitems/"
+            + id
+            + "/rtc_cm:com.ibm.team.workitem.linktype.relatedartifact.relatedArtifact",
+        RtcRelatedLink.class,
+        Transport.APP_JSON,
+        new BasicNameValuePair("rdf:resource", relatedUrl.toExternalForm()),
+        new BasicNameValuePair("oslc_cm:label", text));
   }
 
   @Override
-  public List<RtcEntity> getAvailableStatuses(RtcWorkItem wip)
-      throws IOException {
+  public List<RtcEntity> getAvailableStatuses(RtcWorkItem wip) throws IOException {
     loginIfNeeded();
     final String rdf = wip.getStatus().getRdf();
     final String url = rdf.substring(0, rdf.lastIndexOf('/')) + ".json";
@@ -80,18 +75,17 @@ public class WorkItemsApiImpl extends AbstractApiImpl implements WorkItemsApi {
   }
 
   @Override
-  public List<RtcWorkflowAction> getAvailableActions(RtcWorkItem wip)
-      throws IOException {
+  public List<RtcWorkflowAction> getAvailableActions(RtcWorkItem wip) throws IOException {
     loginIfNeeded();
     final String rdf = wip.getStatus().getRdf();
-    final String url = rdf.substring(0, rdf.lastIndexOf('/')).replace("states", "actions")+ ".json";
+    final String url =
+        rdf.substring(0, rdf.lastIndexOf('/')).replace("states", "actions") + ".json";
     final Type type = new TypeToken<Collection<RtcWorkflowAction>>() {}.getType();
     return transport.get(url, type);
   }
 
   @Override
-  public RtcWorkItem performAction(RtcWorkItem wip, String actionTitle)
-      throws IOException {
+  public RtcWorkItem performAction(RtcWorkItem wip, String actionTitle) throws IOException {
     loginIfNeeded();
     RtcWorkflowAction action = null;
     List<RtcWorkflowAction> allActions = getAvailableActions(wip);
@@ -105,8 +99,8 @@ public class WorkItemsApiImpl extends AbstractApiImpl implements WorkItemsApi {
     if (action == null) {
       throw new ResourceInvalidException(actionTitle);
     }
-    
-    final String url = "/oslc/workitems/" + wip.getId()+"?_action="+action.getId();
+
+    final String url = "/oslc/workitems/" + wip.getId() + "?_action=" + action.getId();
 
     JsonObject rdf = new JsonObject();
     rdf.addProperty("rdf:resource", action.getResultStateRdf());
@@ -115,28 +109,28 @@ public class WorkItemsApiImpl extends AbstractApiImpl implements WorkItemsApi {
 
     return transport.patch(url, RtcWorkItem.class, data, wip.getEtag());
   }
-  
-/*
-  Object foo()  
-  {   
-//    String s = wip.getStatus().getRdf();
-//    JsonObject rdf = new JsonObject();
-//    rdf.addProperty("rdf:resource", s);
-//    JsonObject data = new JsonObject();
-//    data.add("rtc_cm:state", rdf);
 
-    JsonObject rdf = new JsonObject();
-    final String url = newStatus.getRdf();
-    rdf.addProperty("rdf:resource", url);
-    JsonObject data = new JsonObject();
-    data.add("rtc_cm:state", rdf);
+  /*
+    Object foo()
+    {
+  //    String s = wip.getStatus().getRdf();
+  //    JsonObject rdf = new JsonObject();
+  //    rdf.addProperty("rdf:resource", s);
+  //    JsonObject data = new JsonObject();
+  //    data.add("rtc_cm:state", rdf);
 
-//    JsonObject data = new JsonObject();
-//    data.addProperty("dc:title", "Hey, wombats! Is this so called 'patch' really working???");
+      JsonObject rdf = new JsonObject();
+      final String url = newStatus.getRdf();
+      rdf.addProperty("rdf:resource", url);
+      JsonObject data = new JsonObject();
+      data.add("rtc_cm:state", rdf);
 
-    System.err.println(data);
-    return transport.patch("/oslc/workitems/" + wip.getId(), RtcWorkItem.class, data, wip.getEtag());
-//    return transport.put("/oslc/workitems/" + wip.getId()+"?oslc_cm.properties=rtc_cm:state", RtcWorkItem.class, data, wip.getEtag());
-  }
-*/
+  //    JsonObject data = new JsonObject();
+  //    data.addProperty("dc:title", "Hey, wombats! Is this so called 'patch' really working???");
+
+      System.err.println(data);
+      return transport.patch("/oslc/workitems/" + wip.getId(), RtcWorkItem.class, data, wip.getEtag());
+  //    return transport.put("/oslc/workitems/" + wip.getId()+"?oslc_cm.properties=rtc_cm:state", RtcWorkItem.class, data, wip.getEtag());
+    }
+  */
 }

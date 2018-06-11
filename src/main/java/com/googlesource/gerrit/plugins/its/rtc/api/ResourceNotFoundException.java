@@ -21,6 +21,6 @@ public class ResourceNotFoundException extends IOException {
   private static final long serialVersionUID = -2905132705439138798L;
 
   public ResourceNotFoundException(URI uri) {
-    super("Resource not found at "+uri.toString());
+    super("Resource not found at " + uri.toString());
   }
 }

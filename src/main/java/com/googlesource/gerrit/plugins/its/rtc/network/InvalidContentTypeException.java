@@ -17,7 +17,7 @@ import java.io.IOException;
 
 public class InvalidContentTypeException extends IOException {
   private static final long serialVersionUID = -5010337914983644879L;
-  
+
   public InvalidContentTypeException(String reason) {
     super(reason);
   }

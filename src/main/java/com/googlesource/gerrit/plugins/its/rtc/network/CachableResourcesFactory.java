@@ -17,7 +17,6 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-
 public class CachableResourcesFactory {
 
   public final Map<Class<?>, InternalFactory<?>> factories;
@@ -65,7 +64,7 @@ public class CachableResourcesFactory {
     }
 
     private T streamResourceFrom(final String url, final Class<T> clazz) throws IOException {
-      return transport.get(url+".json", clazz);
+      return transport.get(url + ".json", clazz);
     }
   }
 }

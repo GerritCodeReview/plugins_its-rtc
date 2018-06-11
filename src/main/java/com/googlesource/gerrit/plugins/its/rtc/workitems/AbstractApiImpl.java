@@ -13,9 +13,8 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.its.rtc.workitems;
 
-import java.io.IOException;
-
 import com.googlesource.gerrit.plugins.its.rtc.network.RTCClient;
+import java.io.IOException;
 
 public class AbstractApiImpl {
   protected RTCClient client;
@@ -23,9 +22,9 @@ public class AbstractApiImpl {
   public AbstractApiImpl(RTCClient client) {
     this.client = client;
   }
-  
+
   protected void loginIfNeeded() throws IOException {
-    if(!client.isLoggedIn()) {
+    if (!client.isLoggedIn()) {
       client.login();
     }
   }

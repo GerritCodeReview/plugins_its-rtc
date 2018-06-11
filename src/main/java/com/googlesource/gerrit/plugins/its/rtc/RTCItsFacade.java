@@ -13,23 +13,20 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.its.rtc;
 
-import java.io.IOException;
-import java.net.URL;
-
-import org.eclipse.jgit.lib.Config;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
-
 import com.googlesource.gerrit.plugins.its.base.its.ItsFacade;
 import com.googlesource.gerrit.plugins.its.rtc.network.RTCClient;
 import com.googlesource.gerrit.plugins.its.rtc.workitems.RtcComment;
 import com.googlesource.gerrit.plugins.its.rtc.workitems.RtcRelatedLink;
 import com.googlesource.gerrit.plugins.its.rtc.workitems.RtcWorkItem;
+import java.io.IOException;
+import java.net.URL;
+import org.eclipse.jgit.lib.Config;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class RTCItsFacade implements ItsFacade {
 
@@ -48,15 +45,14 @@ public class RTCItsFacade implements ItsFacade {
   private Injector injector;
 
   @Inject
-  public RTCItsFacade(@PluginName String pluginName,
-      @GerritServerConfig Config gerritConfig, Injector injector) {
+  public RTCItsFacade(
+      @PluginName String pluginName, @GerritServerConfig Config gerritConfig, Injector injector) {
     this.pluginName = pluginName;
     try {
       this.injector = injector;
       this.gerritConfig = gerritConfig;
       client().ping();
-      log.info("Connected to RTC at " + getRtcUrl() + " as admin user "
-          + getRtcUser());
+      log.info("Connected to RTC at " + getRtcUrl() + " as admin user " + getRtcUser());
     } catch (Exception ex) {
       log.warn("RTC is currently not available", ex);
     }
@@ -66,26 +62,27 @@ public class RTCItsFacade implements ItsFacade {
   public void addComment(String itemId, String comment) throws IOException {
     long workItem = Long.parseLong(itemId);
     log.debug("Adding comment " + comment + " to workItem " + workItem);
-    RtcComment rtcComment =
-        client().workItemsApi().addComment(workItem, comment);
+    RtcComment rtcComment = client().workItemsApi().addComment(workItem, comment);
     log.debug("Comment created: " + rtcComment);
   }
 
   @Override
-  public void addRelatedLink(String itemId, URL relatedUrl, String description)
-      throws IOException {
+  public void addRelatedLink(String itemId, URL relatedUrl, String description) throws IOException {
     long workItem = Long.parseLong(itemId);
-    log.debug("Adding related link " + relatedUrl + " to workItem " + workItem
-        + " with description " + description);
+    log.debug(
+        "Adding related link "
+            + relatedUrl
+            + " to workItem "
+            + workItem
+            + " with description "
+            + description);
     RtcRelatedLink relatedLink =
         client().workItemsApi().addRelated(workItem, relatedUrl, description);
-    log.debug("Related link " + relatedLink + " to workItem#" + workItem
-        + " CREATED");
+    log.debug("Related link " + relatedLink + " to workItem#" + workItem + " CREATED");
   }
 
   @Override
-  public void performAction(String itemId, String actionName)
-      throws IOException {
+  public void performAction(String itemId, String actionName) throws IOException {
     long workItem = Long.parseLong(itemId);
     log.debug("Executing action " + actionName + " on workItem " + workItem);
     RtcWorkItem wip = client().workItemsApi().getWorkItem(workItem);
@@ -113,13 +110,11 @@ public class RTCItsFacade implements ItsFacade {
   }
 
   private String getRtcPassword() {
-    return gerritConfig.getString(pluginName, null,
-        GERRIT_CONFIG_RTC_PASSWORD);
+    return gerritConfig.getString(pluginName, null, GERRIT_CONFIG_RTC_PASSWORD);
   }
 
   private String getRtcUser() {
-    return gerritConfig.getString(pluginName, null,
-        GERRIT_CONFIG_RTC_USERNAME);
+    return gerritConfig.getString(pluginName, null, GERRIT_CONFIG_RTC_USERNAME);
   }
 
   private String getRtcUrl() {
@@ -137,5 +132,4 @@ public class RTCItsFacade implements ItsFacade {
     RtcWorkItem item = client().workItemsApi().getWorkItem(workItem);
     return item != null;
   }
-
 }
