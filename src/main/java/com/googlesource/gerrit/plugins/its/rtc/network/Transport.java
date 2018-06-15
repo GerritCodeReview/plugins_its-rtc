@@ -146,13 +146,11 @@ public class Transport {
     try {
       final int code = response.getStatusLine().getStatusCode();
       if (code / 100 != 2) {
+        log.debug("API call failed: " + response.getStatusLine());
         if (code == 404) {
-          log.debug("API call failed: " + response.getStatusLine());
           throw new ResourceNotFoundException(request.getURI());
-        } else {
-          log.debug("API call failed: " + response.getStatusLine());
-          throw new IOException("API call failed! " + response.getStatusLine());
         }
+        throw new IOException("API call failed! " + response.getStatusLine());
       }
 
       String responseContentTypeString = getResponseContentType(response);
@@ -179,9 +177,8 @@ public class Transport {
         Transport.etag.set(extractEtag(response));
         if (typeOrClass instanceof ParameterizedType) {
           return gson.fromJson(entityString, (Type) typeOrClass);
-        } else {
-          return gson.fromJson(entityString, (Class<T>) typeOrClass);
         }
+        return gson.fromJson(entityString, (Class<T>) typeOrClass);
       } else if (typeOrClass != null && typeOrClass.equals(String.class)) {
         return (T) entityString;
       } else {
@@ -283,7 +280,9 @@ public class Transport {
   }
 
   private String toUri(final String path) {
-    if (path.startsWith(baseUrl)) return path;
-    else return baseUrl + path;
+    if (path.startsWith(baseUrl)) {
+      return path;
+    }
+    return baseUrl + path;
   }
 }

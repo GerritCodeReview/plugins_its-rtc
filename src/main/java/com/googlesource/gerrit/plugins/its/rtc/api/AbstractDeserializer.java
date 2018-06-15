@@ -41,7 +41,8 @@ public class AbstractDeserializer {
     final String rdf = extractRdfResourceUrl(root, memberName);
     if (rdf != null) {
       return rdf.substring(rdf.lastIndexOf('/') + 1);
-    } else return null;
+    }
+    return null;
   }
 
   protected String extractRdf(JsonObject root) {

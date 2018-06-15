@@ -45,9 +45,8 @@ public class RTCHttpParams implements HttpParams {
         public Object parse(String value) {
           if (value == null) {
             return null;
-          } else {
-            return Long.parseLong(value);
           }
+          return Long.parseLong(value);
         }
       };
 
@@ -57,9 +56,8 @@ public class RTCHttpParams implements HttpParams {
         public Object parse(String value) {
           if (value == null) {
             return null;
-          } else {
-            return Integer.parseInt(value);
           }
+          return Integer.parseInt(value);
         }
       };
 
@@ -69,9 +67,8 @@ public class RTCHttpParams implements HttpParams {
         public Object parse(String value) {
           if (value == null) {
             return null;
-          } else {
-            return Boolean.parseBoolean(value);
           }
+          return Boolean.parseBoolean(value);
         }
       };
 
