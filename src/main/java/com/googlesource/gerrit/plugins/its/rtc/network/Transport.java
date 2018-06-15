@@ -233,14 +233,10 @@ public class Transport {
       }
     }
 
-    ByteArrayOutputStream responseOut = new ByteArrayOutputStream();
-    try {
+    try (ByteArrayOutputStream responseOut = new ByteArrayOutputStream()) {
       IOUtils.copy(response.getEntity().getContent(), responseOut);
-    } finally {
-      responseOut.close();
+      return new String(responseOut.toByteArray(), Charset.forName(charset));
     }
-
-    return new String(responseOut.toByteArray(), Charset.forName(charset));
   }
 
   // We can't use the HTTP Client 4.2 EntityUtils.consume()
