@@ -136,22 +136,22 @@ public class RTCHttpParams implements HttpParams {
 
   @Override
   public HttpParams setParameter(String name, Object value) {
-    return throwsNotSupported(HttpParams.class);
+    return throwNotSupported();
   }
 
-  private <T> T throwsNotSupported(Class<T> clazz) {
+  private <T> T throwNotSupported() {
     throw new IllegalArgumentException("Method not supported");
   }
 
   @Override
   @Deprecated
   public HttpParams copy() {
-    return throwsNotSupported(HttpParams.class);
+    return throwNotSupported();
   }
 
   @Override
   public boolean removeParameter(String name) {
-    return throwsNotSupported(Boolean.class);
+    return throwNotSupported();
   }
 
   @Override
@@ -161,7 +161,7 @@ public class RTCHttpParams implements HttpParams {
 
   @Override
   public HttpParams setLongParameter(String name, long value) {
-    return throwsNotSupported(HttpParams.class);
+    return throwNotSupported();
   }
 
   @Override
@@ -171,17 +171,17 @@ public class RTCHttpParams implements HttpParams {
 
   @Override
   public HttpParams setIntParameter(String name, int value) {
-    return throwsNotSupported(HttpParams.class);
+    return throwNotSupported();
   }
 
   @Override
   public double getDoubleParameter(String name, double defaultValue) {
-    return throwsNotSupported(Double.class);
+    return throwNotSupported();
   }
 
   @Override
   public HttpParams setDoubleParameter(String name, double value) {
-    return throwsNotSupported(HttpParams.class);
+    return throwNotSupported();
   }
 
   @Override
@@ -191,7 +191,7 @@ public class RTCHttpParams implements HttpParams {
 
   @Override
   public HttpParams setBooleanParameter(String name, boolean value) {
-    return throwsNotSupported(HttpParams.class);
+    return throwNotSupported();
   }
 
   @Override
