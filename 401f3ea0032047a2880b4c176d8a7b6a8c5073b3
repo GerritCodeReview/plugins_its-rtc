@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f620baff_3939b2bd",
+        "filename": "BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-06-18T21:14:02Z",
+      "side": 1,
+      "message": "unrelated: you should omit the `:its-base`",
+      "range": {
+        "startLine": 44,
+        "startChar": 9,
+        "endLine": 44,
+        "endChar": 36
+      },
+      "revId": "401f3ea0032047a2880b4c176d8a7b6a8c5073b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
