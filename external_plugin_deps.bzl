@@ -8,7 +8,6 @@ def external_plugin_deps():
   )
 
   maven_jar(
-    name = 'mockito',
-    artifact = 'org.mockito:mockito-all:1.9.5',
-    sha1 = '79a8984096fc6591c1e3690e07d41be506356fa5',
+      name = "jaxb-api",
+      artifact = "javax.xml.bind:jaxb-api:2.3.1",
   )

@@ -23,6 +23,7 @@ gerrit_plugin(
         "@commons-codec//jar:neverlink",
         "@commons-io//jar",
         "@commons-logging//jar",
+        "@jaxb-api//jar",
     ],
 )
 
